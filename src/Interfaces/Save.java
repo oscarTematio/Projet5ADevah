@@ -63,8 +63,8 @@ public class Save extends javax.swing.JFrame {
          CadrePnl.setVisible(false);
          setTitle(" Evaluation de L'Orientation  Spatiale");
         setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Oscar Teamatio\\Documents\\NetBeansProjects\\Devah\\src\\picture\\devah.png"));
-     ardu.setPortDescription("COM5");
-     ardu.setBaudRate(9600);
+       /* ardu.setPortDescription("COM5");
+        ardu.setBaudRate(9600);*/
      
      
     }
@@ -884,7 +884,7 @@ public class Save extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(VVSCheck)
                         .addComponent(AxeCheck)
@@ -901,7 +901,7 @@ public class Save extends javax.swing.JFrame {
                     .addComponent(Nombredessai, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(Envoyer, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(143, 143, 143))
+                .addGap(30, 30, 30))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(153, 153, 153));
@@ -974,7 +974,7 @@ public class Save extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -1141,7 +1141,7 @@ public class Save extends javax.swing.JFrame {
     private void EnvoyerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnvoyerActionPerformed
             //Enregistrement();
         
-         Valeurs();
+         
          Info.setVisible(true);
          Info.setTitle("Placez la Baguette à la Verticale");
     }//GEN-LAST:event_EnvoyerActionPerformed
@@ -1257,10 +1257,10 @@ public class Save extends javax.swing.JFrame {
             Info.hide();
             Zero.setVisible(true);
             Zero.setTitle("Entrez la Valeur de Réference");
-            ardu.openConnection();
+            //ardu.openConnection();
             Thread.sleep(500);
-            ardu.serialWrite(Valeur_zero.getText());
-            ardu.closeConnection();
+          //  ardu.serialWrite(Valeur_zero.getText());
+         //   ardu.closeConnection();
             
         } catch (InterruptedException ex) {
             Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);

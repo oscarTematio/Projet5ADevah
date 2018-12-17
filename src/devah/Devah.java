@@ -5,6 +5,8 @@
  */
 package devah;
 
+import Interfaces.Acceuil;
+
 
 
 /**
@@ -20,7 +22,9 @@ public class Devah {
     public static void main(String[] args) {
         // TODO code application logic here
      
-     
+     Acceuil fn = new Acceuil();
+          //fn.add(fr);
+          fn.setVisible(true);
     }
     
 }

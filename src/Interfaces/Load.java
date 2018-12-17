@@ -123,7 +123,7 @@ public class Load extends javax.swing.JFrame {
                  if(ligne.startsWith("Nombre ")){
                     System.out.println(ligne);
                     System.out.println(ligne.substring(7, 8));
-                    params.setNombredEssai(Integer.parseInt(ligne.substring(7, 8)));
+//                    params.setNombredEssai(Integer.parseInt(ligne.substring(7, 8)));
                      
                 }
                   if(ligne.startsWith("Vitesse :")){
