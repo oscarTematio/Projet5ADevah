@@ -32,7 +32,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -63,8 +66,8 @@ public class Save extends javax.swing.JFrame {
          CadrePnl.setVisible(false);
          setTitle(" Evaluation de L'Orientation  Spatiale");
         setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Oscar Teamatio\\Documents\\NetBeansProjects\\Devah\\src\\picture\\devah.png"));
-       /* ardu.setPortDescription("COM5");
-        ardu.setBaudRate(9600);*/
+        ardu.setPortDescription("COM3");
+        ardu.setBaudRate(9600);
      
      
     }
@@ -100,6 +103,73 @@ public class Save extends javax.swing.JFrame {
             b="NON";
         }
     }
+ /*/***************************************************************************************************************************************/     
+      public void Alea(){
+           Vector<Integer> C = new Vector<Integer>();
+           int AngleCadre []= new int[EssaisCadre.getRowCount()];
+        if(AleatoireCheckCadre.isSelected()){
+         
+          for (int u=0;u<EssaisCadre.getRowCount();u++){
+              C.addElement(Integer.parseInt((String) EssaisCadre.getModel().getValueAt(u, 0)));
+          }
+          System.out.println(C);
+          
+          Random ran = new Random();
+          //int index=ran.nextInt(C.size());
+          
+          for (int u=0;u<EssaisCadre.getRowCount();u++){
+              //on choisit l'index aléatoire 
+              int index=ran.nextInt(C.size());
+              System.out.println(C.get(index)+"  "+ index);
+              //on ajoute la valeur dans le Tableau 
+              AngleCadre[u]= C.get(index);
+              //on supprime ce qu'on vient de mettre 
+              C.remove(index);
+          }
+           System.out.println(Arrays.toString(AngleCadre));
+           params.setValeursCadre(AngleCadre);
+        }else{
+            int AngleCadreC [] = new int[EssaisCadre.getRowCount()];
+            
+            for(int v=0;v<EssaisCadre.getRowCount()-1;v++){
+                AngleCadreC[v]=(int) EssaisCadre.getValueAt(v, 0);    
+            }
+            params.setValeursCadre(AngleCadreC);
+        }
+        
+         Vector<Integer> B = new Vector<Integer>();
+         int AngleTige []= new int[EssaisTige.getRowCount()];
+        if(AleatoireCheckTige.isSelected()){
+         
+          for (int u=0;u<EssaisTige.getRowCount();u++){
+              B.addElement(Integer.parseInt((String) EssaisTige.getModel().getValueAt(u, 0)));
+          }
+          
+          
+          Random ran = new Random();
+          //int index=ran.nextInt(C.size());
+          
+          for (int u=0;u<EssaisTige.getRowCount();u++){
+              //on choisit l'index aléatoire 
+              int index=ran.nextInt(B.size());
+              System.out.println(B.get(index)+"  "+ index);
+              //on ajoute la valeur dans le Tableau 
+              AngleTige[u]= B.get(index);
+              //on supprime ce qu'on vient de mettre 
+              B.remove(index);
+          }
+          System.out.println(Arrays.toString(AngleTige));
+          params.setValeursTige(AngleTige);
+        }else{
+            int AngleTigeC [] = new int[EssaisTige.getRowCount()];
+            
+            for(int v=0;v<EssaisTige.getRowCount()-1;v++){
+                AngleTigeC[v]=(int) EssaisTige.getValueAt(v, 0);    
+            }
+            params.setValeursTige(AngleTigeC);
+        }
+        
+      }
       /*******************************************************************************************************************************/
       public void Enregistrement (){
           save();
@@ -462,6 +532,8 @@ public class Save extends javax.swing.JFrame {
                 ConfirmerActionPerformed(evt);
             }
         });
+
+        Valeur_zero.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -1140,8 +1212,8 @@ public class Save extends javax.swing.JFrame {
     
     private void EnvoyerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnvoyerActionPerformed
             //Enregistrement();
-        
-         
+         System.out.print(EssaisCadre.getRowCount());
+         Alea();
          Info.setVisible(true);
          Info.setTitle("Placez la Baguette à la Verticale");
     }//GEN-LAST:event_EnvoyerActionPerformed
@@ -1151,34 +1223,35 @@ public class Save extends javax.swing.JFrame {
     }//GEN-LAST:event_Nombres_ValeursActionPerformed
 
     private void ConfirmerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmerActionPerformed
-     final JFrame fenetre = new JFrame();
-        fenetre.setSize(200,200);
-        fenetre.setLocationRelativeTo(null);
-        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetre.setVisible(false);
-
-        JFileChooser fc = new JFileChooser();
-         int val_retour = fc.showSaveDialog(fc);
+        try {
+            /*  final JFrame fenetre = new JFrame();
+            fenetre.setSize(200,200);
+            fenetre.setLocationRelativeTo(null);
+            fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            fenetre.setVisible(false);
             
-             //if (val_retour == JFileChooser.APPROVE_OPTION) {
+            JFileChooser fc = new JFileChooser();
+            int val_retour = fc.showSaveDialog(fc);
+            
+            //if (val_retour == JFileChooser.APPROVE_OPTION) {
             try {
-              
-                File fichier1 = fc.getSelectedFile();
-                File fi = new File(fichier1.getAbsolutePath());
-                fi.createNewFile();
+            
+            File fichier1 = fc.getSelectedFile();
+            File fi = new File(fichier1.getAbsolutePath());
+            fi.createNewFile();
             PrintWriter fichier = new PrintWriter(fichier1.getAbsolutePath());
             fichier.println("Nature: " +a );
             fichier.println("Vitesse: " + Vitesse.getText());
             fichier.println("-----------------------------------");
             fichier.print("Orientations Initiales Baguette [");
             for(i=0;i <EssaisTige.getRowCount();i++){
-                if (i!=(EssaisTige.getRowCount()-1)){
-                    
-                    fichier.print(String.valueOf( EssaisTige.getModel().getValueAt(i,0))+";");
-                } else {
-                    fichier.print(String.valueOf( EssaisTige.getModel().getValueAt(i,0)));
-                    
-                }
+            if (i!=(EssaisTige.getRowCount()-1)){
+            
+            fichier.print(String.valueOf( EssaisTige.getModel().getValueAt(i,0))+";");
+            } else {
+            fichier.print(String.valueOf( EssaisTige.getModel().getValueAt(i,0)));
+            
+            }
             }
             fichier.println("]");
             fichier.println("Aléatoire Baguette: "+c);
@@ -1186,13 +1259,13 @@ public class Save extends javax.swing.JFrame {
             fichier.println("-----------------------------------");
             fichier.print("Orientations Initiales Cadre [");
             for(i=0;i <EssaisCadre.getRowCount();i++){
-                if (i!=(EssaisCadre.getRowCount()-1)){
-                    
-                    fichier.print(String.valueOf( EssaisCadre.getModel().getValueAt(i,0))+";");
-                } else {
-                    fichier.print(String.valueOf( EssaisCadre.getModel().getValueAt(i,0)));
-                    
-                }
+            if (i!=(EssaisCadre.getRowCount()-1)){
+            
+            fichier.print(String.valueOf( EssaisCadre.getModel().getValueAt(i,0))+";");
+            } else {
+            fichier.print(String.valueOf( EssaisCadre.getModel().getValueAt(i,0)));
+            
+            }
             }
             fichier.println("]");
             fichier.println("Aléatoire Cadre: "+b);
@@ -1201,15 +1274,21 @@ public class Save extends javax.swing.JFrame {
             fichier.println("Nombres d'éssais: "+ Nombredessai.getText());
             fichier.println("Zéro: " + Valeur_zero.getText());
             fichier.close();
-                //afficher le chemin absolu du fichier
-                
-                System.out.println("Chemin absolu : "+fichier1.getAbsolutePath()+"\n");
-                
+            //afficher le chemin absolu du fichier
+            
+            System.out.println("Chemin absolu : "+fichier1.getAbsolutePath()+"\n");
+            
             } catch (IOException ex) {
-                Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-        
+            Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+           
+            ardu.openConnection();
+            Thread.sleep(1000);
+            ardu.serialWrite("Init:"+Valeur_zero.getText()+":");
+            ardu.closeConnection();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_ConfirmerActionPerformed
 
     private void SupprimerLigneTigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerLigneTigeActionPerformed
