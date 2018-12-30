@@ -22,7 +22,7 @@ Remplacer Zéro par valeur de réference
 creer pour le fichier résultats  tout sous forme de ligne*/
 package Interfaces;
 
-import Classes.ParametresTest;
+import Classes.Parametres;
 import arduino.Arduino;
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -51,7 +51,7 @@ public class Save extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public ParametresTest params = new ParametresTest();
+    public Parametres params = new Parametres();
     
     Writer conf;
     FileWriter config;
@@ -90,12 +90,13 @@ public class Save extends javax.swing.JFrame {
         }else if(AxeCheck.isSelected()){
             a="AXE-Z";
         }
-        
+        Parametres.setNature(a);
         if (AleatoireCheckTige.isSelected()){
             c="OUI";
         }else if (ContinueCheckTige.isSelected()){
             c="NON";
         }
+        
         if(AleatoireCheckCadre.isSelected()){
             b="OUI";
             
@@ -143,7 +144,8 @@ public class Save extends javax.swing.JFrame {
          
           for (int u=0;u<EssaisTige.getRowCount();u++){
               B.addElement(Integer.parseInt((String) EssaisTige.getModel().getValueAt(u, 0)));
-          }
+              
+            }
           
           
           Random ran = new Random();
@@ -159,15 +161,21 @@ public class Save extends javax.swing.JFrame {
               B.remove(index);
           }
           System.out.println(Arrays.toString(AngleTige));
-          params.setValeursTige(AngleTige);
+          Parametres.setValeursTige(AngleTige);
         }else{
             int AngleTigeC [] = new int[EssaisTige.getRowCount()];
             
             for(int v=0;v<EssaisTige.getRowCount()-1;v++){
                 AngleTigeC[v]=(int) EssaisTige.getValueAt(v, 0);    
             }
-            params.setValeursTige(AngleTigeC);
+            Parametres.setValeursTige(AngleTigeC);
         }
+        
+        Parametres.setNombredEssaiCadre(Integer.parseInt(NombreEssaiCadre.getText()));
+        Parametres.setNombredEssaiTige(Integer.parseInt(NombreEssaiTige.getText()));
+        Parametres.setVitesse(Integer.parseInt(Vitesse.getText()));
+        Parametres.setOrientationInitiales(Integer.parseInt(Valeur_zero.getText()));
+        Parametres.setNombresTotal(e);
         
       }
       /*******************************************************************************************************************************/
