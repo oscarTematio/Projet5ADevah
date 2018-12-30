@@ -5,128 +5,32 @@
  */
 package Interfaces;
 
-import Classes.ParametresTest;
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Enumeration;
-
-
+import Classes.Parametres;
+import arduino.Arduino;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Oscar Teamatio
  */
-public class ValeurCadre extends javax.swing.JFrame implements SerialPortEventListener {
-    ParametresTest params = new ParametresTest();
- gnu.io.SerialPort serialPort;
-       /** The port we're normally going to use. */
-	private static final String PORT_NAMES[] = { 
-			//"/dev/tty.usbserial-A9007UX1", // Mac OS X
-              //         "/dev/ttyACM0", // Raspberry Pi
-			//"/dev/ttyUSB0", // Linux
-			"COM5", // Windows
-	};
-	/**
-	* A BufferedReader which will be fed by a InputStreamReader 
-	* converting the bytes into characters 
-	* making the displayed results codepage independent
-	*/
-	public BufferedReader input;
-	/** The output stream to the port */
-	//private OutputStream output;
-	/** Milliseconds to block while waiting for port open */
-	private static final int TIME_OUT = 2000;
-	/** Default bits per second for COM port. */
-	private static final int DATA_RATE = 9600;
-
-	public void initialize() {
-               // the next line is for Raspberry Pi and 
-               // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
-              // System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
-
-		CommPortIdentifier portId = null;
-		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
-
-		//First, Find an instance of serial port as set in PORT_NAMES.
-		while (portEnum.hasMoreElements()) {
-			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
-			for (String portName : PORT_NAMES) {
-				if (currPortId.getName().equals(portName)) {
-					portId = currPortId;
-					break;
-				}
-			}
-		}
-		if (portId == null) {
-			System.out.println("Could not find COM port.");
-			return;
-		}
-
-		try {
-			// open serial port, and use class name for the appName.
-			serialPort = (gnu.io.SerialPort) portId.open(this.getClass().getName(),
-					TIME_OUT);
-
-			// set port parameters
-			serialPort.setSerialPortParams(DATA_RATE,
-					gnu.io.SerialPort.DATABITS_8,
-					gnu.io.SerialPort.STOPBITS_1,
-					gnu.io.SerialPort.PARITY_NONE);
-
-			// open the streams
-			input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
-			//output = serialPort.getOutputStream();
-
-			// add event listeners
-			serialPort.addEventListener(this);
-			serialPort.notifyOnDataAvailable(true);
-		} catch (Exception e) {
-			System.err.println(e.toString());
-		}
-	}
-
-	/**
-	 * This should be called when you stop using the port.
-	 * This will prevent port locking on platforms like Linux.
-	 */
-	public synchronized void close() {
-		if (serialPort != null) {
-			serialPort.removeEventListener();
-			serialPort.close();
-		}
-	}
-
-	/**
-	 * Handle an event on the serial port. Read the data and print it.
-     * @param oEvent
-	 */
-       
-@Override
-	public synchronized void serialEvent(SerialPortEvent oEvent) {
-		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-                      
-			try {
-                            // BufferedReader input=new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
-                            String inputLine = input.readLine();
-                                                                
-                                   
-			} catch (Exception e) {
-				System.err.println(e.toString());
-			}
-                         
-		}
-		// Ignore all the other eventTypes, but you should consider the other ones.
-	}
-       
-
-        
-    
-
+public class ValeurCadre extends javax.swing.JFrame {
+    Parametres params = new Parametres();
+    int A[];
+    int B[];
+    String C ; 
+    int D;
+    String E[];
+    Arduino ardu = new Arduino();
  public ValeurCadre() {
         initComponents();
+         A =Parametres.getValeursCadre();
+         B = Parametres.getValeursTige();
+         C=Parametres.getNature();
+         D=Parametres.getNombresTotal();
+         
+         ardu.setPortDescription("COM3");
+         ardu.setBaudRate(9600);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -138,7 +42,7 @@ public class ValeurCadre extends javax.swing.JFrame implements SerialPortEventLi
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        Valeur = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         Next = new javax.swing.JButton();
 
@@ -170,8 +74,8 @@ public class ValeurCadre extends javax.swing.JFrame implements SerialPortEventLi
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(369, 369, 369))
+                        .addComponent(Valeur, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(360, 360, 360))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(245, 245, 245))))
@@ -181,7 +85,7 @@ public class ValeurCadre extends javax.swing.JFrame implements SerialPortEventLi
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(136, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Valeur, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(77, 77, 77)
                 .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -201,12 +105,30 @@ public class ValeurCadre extends javax.swing.JFrame implements SerialPortEventLi
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+     public void val(){
+         for (int n=0;n<A.length;n++){
+             for(int m =0;m<B.length;m++){
+                 E[n]= C+":"+A[n]+":"+B[m];
+             }
+             
+         }
+     }
     
     private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
-        // TODO add your handling code here:
-        //System.out.println(params.getNature());
-        
+       
+        try {
+            ardu.openConnection();
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ValeurCadre.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if ( i <D){
+            Valeur.setText(String.valueOf(A[i]));
+            ardu.serialWrite(E[i]);
+        i++;
+        }
+        ardu.closeConnection();
+    
     }//GEN-LAST:event_NextActionPerformed
 
     /**
@@ -243,10 +165,11 @@ public class ValeurCadre extends javax.swing.JFrame implements SerialPortEventLi
             }
         });
     }
-
+    int i = 0;
+    int j = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Next;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel Valeur;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
