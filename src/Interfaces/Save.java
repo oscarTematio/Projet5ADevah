@@ -104,6 +104,61 @@ public class Save extends javax.swing.JFrame {
             b="NON";
         }
     }
+      
+      
+      
+      
+/*******************************************************************************************************************************************/
+      public static int[] fusion ( int[] tab1, int[]tab2 )
+    {
+        int dim1 = tab1.length ;
+        int dim2 = tab2.length ;
+         
+        int[] tab3 = new int[dim1+dim2] ;
+         
+        int a = 0 ;
+        int b = 0 ;
+        int c = 0 ;
+         
+        while ( c < dim1+dim2-1 )
+        {
+            if ( tab1[a] <= tab2[b] )
+            {
+                tab3[c] = tab1[a] ;
+                a++ ;
+                c++ ;
+                if ( a == dim1-1 )
+                {
+                    while ( b < dim2)  // ici le <= entrainait une copie du reste du tableau trop rapide
+                    {
+                    tab3[c] = tab2[b] ;
+                    b ++ ;
+                    c ++ ;
+                    }
+                }
+            }
+            else
+            {
+            if ( tab1[a] > tab2[b] )
+            {
+                tab3[c] = tab2[b] ;
+                b++ ;
+                c++ ;
+                if ( b == dim2-1 )
+                {
+                    while ( a < dim1 )  // ici aussi c'était le cas
+                    {
+                    tab3[c] = tab1[a] ;
+                    a ++ ;
+                    c++ ;
+                    }
+                }
+            }
+            }
+         
+        }
+        return tab3 ;
+    }
  /*/***************************************************************************************************************************************/     
       public void Alea(){
            Vector<Integer> C = new Vector<Integer>();
@@ -133,11 +188,16 @@ public class Save extends javax.swing.JFrame {
             int AngleCadreC [] = new int[EssaisCadre.getRowCount()];
             
             for(int v=0;v<EssaisCadre.getRowCount()-1;v++){
-                AngleCadreC[v]=(int) EssaisCadre.getValueAt(v, 0);    
+                AngleCadreC[v]=Integer.parseInt((String)(EssaisCadre.getModel().getValueAt(v, 0)));    
+            }
+            int AngleCC[] = new int [EssaisCadre.getRowCount()*Integer.parseInt(NombreEssaiCadre.getText())];
+            for(int p=0;p<Integer.parseInt(NombreEssaiCadre.getText());p++){
+              AngleCC = fusion(AngleCC,AngleCadreC); 
             }
             params.setValeursCadre(AngleCadreC);
+            System.out.println(Arrays.toString(AngleCC));
         }
-        
+       
          Vector<Integer> B = new Vector<Integer>();
          int AngleTige []= new int[EssaisTige.getRowCount()];
         if(AleatoireCheckTige.isSelected()){
@@ -166,7 +226,7 @@ public class Save extends javax.swing.JFrame {
             int AngleTigeC [] = new int[EssaisTige.getRowCount()];
             
             for(int v=0;v<EssaisTige.getRowCount()-1;v++){
-                AngleTigeC[v]=(int) EssaisTige.getValueAt(v, 0);    
+                AngleTigeC[v]=Integer.parseInt( (String)EssaisTige.getModel().getValueAt(v, 0));    
             }
             Parametres.setValeursTige(AngleTigeC);
         }
