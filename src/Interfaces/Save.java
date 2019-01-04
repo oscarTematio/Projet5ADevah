@@ -90,7 +90,7 @@ public class Save extends javax.swing.JFrame {
         }else if(AxeCheck.isSelected()){
             a="AXE-Z";
         }
-        Parametres.setNature(a);
+        params.setNature(a);
         if (AleatoireCheckTige.isSelected()){
             c="OUI";
         }else if (ContinueCheckTige.isSelected()){
@@ -111,53 +111,12 @@ public class Save extends javax.swing.JFrame {
 /*******************************************************************************************************************************************/
       public static int[] fusion ( int[] tab1, int[]tab2 )
     {
-        int dim1 = tab1.length ;
-        int dim2 = tab2.length ;
-         
-        int[] tab3 = new int[dim1+dim2] ;
-         
-        int a = 0 ;
-        int b = 0 ;
-        int c = 0 ;
-         
-        while ( c < dim1+dim2-1 )
-        {
-            if ( tab1[a] <= tab2[b] )
-            {
-                tab3[c] = tab1[a] ;
-                a++ ;
-                c++ ;
-                if ( a == dim1-1 )
-                {
-                    while ( b < dim2)  // ici le <= entrainait une copie du reste du tableau trop rapide
-                    {
-                    tab3[c] = tab2[b] ;
-                    b ++ ;
-                    c ++ ;
-                    }
-                }
-            }
-            else
-            {
-            if ( tab1[a] > tab2[b] )
-            {
-                tab3[c] = tab2[b] ;
-                b++ ;
-                c++ ;
-                if ( b == dim2-1 )
-                {
-                    while ( a < dim1 )  // ici aussi c'était le cas
-                    {
-                    tab3[c] = tab1[a] ;
-                    a ++ ;
-                    c++ ;
-                    }
-                }
-            }
-            }
-         
-        }
-        return tab3 ;
+        int tab3[]= new int[tab1.length+tab2.length];
+       
+        System.arraycopy(tab1, 0, tab3,0,tab1.length);
+        System.arraycopy(tab2,0, tab3,tab1.length, tab2.length);
+        
+        return tab3;
     }
  /*/***************************************************************************************************************************************/     
       public void Alea(){
@@ -182,19 +141,24 @@ public class Save extends javax.swing.JFrame {
               //on supprime ce qu'on vient de mettre 
               C.remove(index);
           }
-           System.out.println(Arrays.toString(AngleCadre));
-           params.setValeursCadre(AngleCadre);
+            int AngleCA []= new int[0];
+           for(int p=0;p<Integer.parseInt(NombreEssaiCadre.getText());p++){
+              AngleCA = fusion(AngleCA,AngleCadre); 
+            }
+           System.out.println(Arrays.toString(AngleCA));
+           params.setValeursCadre(AngleCA);
         }else{
             int AngleCadreC [] = new int[EssaisCadre.getRowCount()];
             
-            for(int v=0;v<EssaisCadre.getRowCount()-1;v++){
+            for(int v=0;v<EssaisCadre.getRowCount();v++){
                 AngleCadreC[v]=Integer.parseInt((String)(EssaisCadre.getModel().getValueAt(v, 0)));    
             }
-            int AngleCC[] = new int [EssaisCadre.getRowCount()*Integer.parseInt(NombreEssaiCadre.getText())];
+            int AngleCC[] = new int [0];
             for(int p=0;p<Integer.parseInt(NombreEssaiCadre.getText());p++){
               AngleCC = fusion(AngleCC,AngleCadreC); 
             }
-            params.setValeursCadre(AngleCadreC);
+            params.setValeursCadre(AngleCC);
+            System.out.println(Arrays.toString(AngleCadreC));
             System.out.println(Arrays.toString(AngleCC));
         }
        
@@ -219,23 +183,31 @@ public class Save extends javax.swing.JFrame {
               AngleTige[u]= B.get(index);
               //on supprime ce qu'on vient de mettre 
               B.remove(index);
-          }
-          System.out.println(Arrays.toString(AngleTige));
-          Parametres.setValeursTige(AngleTige);
+            }
+           int AngleTA []= new int [0];
+           for(int p=0;p<Integer.parseInt(NombreEssaiTige.getText());p++){
+              AngleTA = fusion(AngleTA,AngleTige); 
+            }
+          params.setValeursTige(AngleTA);
+          System.out.println(Arrays.toString(AngleTA));
         }else{
             int AngleTigeC [] = new int[EssaisTige.getRowCount()];
             
-            for(int v=0;v<EssaisTige.getRowCount()-1;v++){
+            for(int v=0;v<EssaisTige.getRowCount();v++){
                 AngleTigeC[v]=Integer.parseInt( (String)EssaisTige.getModel().getValueAt(v, 0));    
             }
-            Parametres.setValeursTige(AngleTigeC);
+            int AngleTC [] = new int [0];
+             for(int p=0;p<Integer.parseInt(NombreEssaiTige.getText());p++){
+              AngleTC = fusion(AngleTC,AngleTigeC); 
+            }
+            params.setValeursTige(AngleTC);
         }
         
-        Parametres.setNombredEssaiCadre(Integer.parseInt(NombreEssaiCadre.getText()));
-        Parametres.setNombredEssaiTige(Integer.parseInt(NombreEssaiTige.getText()));
-        Parametres.setVitesse(Integer.parseInt(Vitesse.getText()));
-        Parametres.setOrientationInitiales(Integer.parseInt(Valeur_zero.getText()));
-        Parametres.setNombresTotal(e);
+        params.setNombredEssaiCadre(Integer.parseInt(NombreEssaiCadre.getText()));
+        params.setNombredEssaiTige(Integer.parseInt(NombreEssaiTige.getText()));
+        params.setVitesse(Integer.parseInt(Vitesse.getText()));
+      
+        params.setNombresTotal(e);
         
       }
       /*******************************************************************************************************************************/
@@ -1349,13 +1321,18 @@ public class Save extends javax.swing.JFrame {
             } catch (IOException ex) {
             Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);
             }*/
-           
+            params.setOrientationInitiales(Integer.parseInt(Valeur_zero.getText()));
             ardu.openConnection();
             Thread.sleep(1000);
             ardu.serialWrite("Init:"+Valeur_zero.getText()+":");
             ardu.closeConnection();
         } catch (InterruptedException ex) {
             Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (RFTCheck.isSelected()){
+            ValeurCadre vc = new ValeurCadre();
+            vc.setVisible(true);
         }
     }//GEN-LAST:event_ConfirmerActionPerformed
 

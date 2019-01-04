@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes;
+package Interfaces;
 
 /**
  *
  * @author Oscar Teamatio
  */
 public class Parametres {
-  private  static  int OrientationInitiales;
-  private static  String Nature;
-  private static   int NombredEssaiTige;
-  private static  int NombredEssaiCadre;
-  private static  int NombresTotal;
-  private static   int[] ValeursTige; 
-  private static int[] ValeursCadre; 
-  private static boolean Aleatoire;
-  private static double Vitesse;
+static  private int OrientationInitiales;
+  static private String Nature;
+static  private int NombredEssaiTige;
+static private int NombredEssaiCadre;
+static private int NombresTotal;
+ static private  int[] ValeursTige; 
+ static private  int[] ValeursCadre; 
+static private boolean Aleatoire;
+static  private double Vitesse;
 
     public Parametres() {
     }

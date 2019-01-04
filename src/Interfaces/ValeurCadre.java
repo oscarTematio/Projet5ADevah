@@ -24,10 +24,7 @@ public class ValeurCadre extends javax.swing.JFrame {
     Arduino ardu = new Arduino();
  public ValeurCadre() {
         initComponents();
-         A =Parametres.getValeursCadre();
-         B = Parametres.getValeursTige();
-         C=Parametres.getNature();
-         D=Parametres.getNombresTotal();
+         
          
          ardu.setPortDescription("COM3");
          ardu.setBaudRate(9600);
@@ -74,8 +71,8 @@ public class ValeurCadre extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Valeur, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(360, 360, 360))
+                        .addComponent(Valeur, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(271, 271, 271))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(245, 245, 245))))
@@ -96,7 +93,7 @@ public class ValeurCadre extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,8 +103,8 @@ public class ValeurCadre extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
      public void val(){
-         for (int n=0;n<A.length;n++){
-             for(int m =0;m<B.length;m++){
+         for (int n=0;n<A.length-1;n++){
+             for(int m =0;m<B.length-1;m++){
                  E[n]= C+":"+A[n]+":"+B[m];
              }
              
@@ -115,19 +112,25 @@ public class ValeurCadre extends javax.swing.JFrame {
      }
     
     private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
-       
+        
         try {
+             A=params.getValeursCadre();
+         B= params.getValeursTige();
+         C=params.getNature();
+         D=params.getNombresTotal();
+         val();
             ardu.openConnection();
             Thread.sleep(1000);
+             if ( i <D){
+            Valeur.setText(String.valueOf(D));
+            ardu.serialWrite("toto");
+             i++;
+            }
+            ardu.closeConnection();
         } catch (InterruptedException ex) {
             Logger.getLogger(ValeurCadre.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if ( i <D){
-            Valeur.setText(String.valueOf(A[i]));
-            ardu.serialWrite(E[i]);
-        i++;
-        }
-        ardu.closeConnection();
+       
     
     }//GEN-LAST:event_NextActionPerformed
 

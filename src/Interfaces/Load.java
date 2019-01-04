@@ -5,7 +5,7 @@
  */
 package Interfaces;
 
-import Classes.ParametresTest;
+import Classes.Parametres;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import static java.time.Clock.system;
@@ -20,7 +20,7 @@ public class Load extends javax.swing.JFrame {
     /**
      * Creates new form Load
      */
-    public ParametresTest params = new ParametresTest();
+    public Parametres params = new Parametres();
     //Save sv =new Save(null, null, null, null, null, null, null, null, null, null);
    
     public Load() {
