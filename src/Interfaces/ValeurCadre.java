@@ -7,6 +7,8 @@ package Interfaces;
 
 import Classes.Parametres;
 import arduino.Arduino;
+import java.util.Arrays;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,6 +23,8 @@ public class ValeurCadre extends javax.swing.JFrame {
     String C ; 
     int D;
     String E[];
+    Vector<String> V = new Vector<String>();
+    String [] Valeu = new String[D];
     Arduino ardu = new Arduino();
  public ValeurCadre() {
         initComponents();
@@ -47,6 +51,8 @@ public class ValeurCadre extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        Valeur.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
@@ -66,34 +72,32 @@ public class ValeurCadre extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Valeur, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(271, 271, 271))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(245, 245, 245))))
+                        .addComponent(Valeur, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(136, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(137, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Valeur, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(77, 77, 77)
+                .addGap(55, 55, 55)
                 .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addGap(38, 38, 38))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,28 +107,35 @@ public class ValeurCadre extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
      public void val(){
-         for (int n=0;n<A.length-1;n++){
-             for(int m =0;m<B.length-1;m++){
-                 E[n]= C+":"+A[n]+":"+B[m];
+         A=params.getValeursCadre();
+        System.out.println(Arrays.toString(A));
+         B= params.getValeursTige();
+         C=params.getNature();
+         D=params.getNombresTotal();
+         System.out.println(D);
+         for (int n=0;n<A.length;n++){
+             for(int m =0;m<B.length;m++){
+                 V.addElement(C+":"+A[n]+":"+B[m]);     
              }
              
          }
+          System.out.println("valeur"+V.size());
+        
      }
     
     private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
         
         try {
-             A=params.getValeursCadre();
-         B= params.getValeursTige();
-         C=params.getNature();
-         D=params.getNombresTotal();
+         
          val();
             ardu.openConnection();
             Thread.sleep(1000);
+           
              if ( i <D){
-            Valeur.setText(String.valueOf(D));
-            ardu.serialWrite("toto");
-             i++;
+                        System.out.println(i+" "+D);    
+                       Valeur.setText(V.get(i).split(":")[1]);
+                       ardu.serialWrite(V.get(i));
+                        i++;
             }
             ardu.closeConnection();
         } catch (InterruptedException ex) {

@@ -62,7 +62,7 @@ public class Save extends javax.swing.JFrame {
                 setBackground(Color.WHITE);
 
         initComponents();
-         save();
+         safe();
          CadrePnl.setVisible(false);
          setTitle(" Evaluation de L'Orientation  Spatiale");
         setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Oscar Teamatio\\Documents\\NetBeansProjects\\Devah\\src\\picture\\devah.png"));
@@ -81,7 +81,7 @@ public class Save extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     /*************************************************************************************************************************************/
-      public void save(){
+      public void safe(){
         if (RFTCheck.isSelected()){
             
             a= "RFT";       
@@ -122,6 +122,7 @@ public class Save extends javax.swing.JFrame {
       public void Alea(){
            Vector<Integer> C = new Vector<Integer>();
            int AngleCadre []= new int[EssaisCadre.getRowCount()];
+      if(RFTCheck.isSelected()){     
         if(AleatoireCheckCadre.isSelected()){
          
           for (int u=0;u<EssaisCadre.getRowCount();u++){
@@ -202,17 +203,63 @@ public class Save extends javax.swing.JFrame {
             }
             params.setValeursTige(AngleTC);
         }
-        
         params.setNombredEssaiCadre(Integer.parseInt(NombreEssaiCadre.getText()));
-        params.setNombredEssaiTige(Integer.parseInt(NombreEssaiTige.getText()));
-        params.setVitesse(Integer.parseInt(Vitesse.getText()));
-      
-        params.setNombresTotal(e);
+        
         
       }
+      else{
+          
+           Vector<Integer> B = new Vector<Integer>();
+         int AngleTige []= new int[EssaisTige.getRowCount()];
+       if(AleatoireCheckTige.isSelected()){
+         
+          for (int u=0;u<EssaisTige.getRowCount();u++){
+              B.addElement(Integer.parseInt((String) EssaisTige.getModel().getValueAt(u, 0)));
+              
+            }
+          
+          
+          Random ran = new Random();
+          //int index=ran.nextInt(C.size());
+          
+          for (int u=0;u<EssaisTige.getRowCount();u++){
+              //on choisit l'index aléatoire 
+              int index=ran.nextInt(B.size());
+              System.out.println(B.get(index)+"  "+ index);
+              //on ajoute la valeur dans le Tableau 
+              AngleTige[u]= B.get(index);
+              //on supprime ce qu'on vient de mettre 
+              B.remove(index);
+            }
+           int AngleTA []= new int [0];
+           for(int p=0;p<Integer.parseInt(NombreEssaiTige.getText());p++){
+              AngleTA = fusion(AngleTA,AngleTige); 
+            }
+          params.setValeursTige(AngleTA);
+          System.out.println(Arrays.toString(AngleTA));
+        }else{
+            int AngleTigeC [] = new int[EssaisTige.getRowCount()];
+            
+            for(int v=0;v<EssaisTige.getRowCount();v++){
+                AngleTigeC[v]=Integer.parseInt( (String)EssaisTige.getModel().getValueAt(v, 0));    
+            }
+            int AngleTC [] = new int [0];
+             for(int p=0;p<Integer.parseInt(NombreEssaiTige.getText());p++){
+              AngleTC = fusion(AngleTC,AngleTigeC); 
+            }
+            params.setValeursTige(AngleTC);
+        }   
+      }
+      
+        
+        params.setNombredEssaiTige(Integer.parseInt(NombreEssaiTige.getText()));
+        params.setVitesse(Integer.parseInt(Vitesse.getText()));
+        params.setNature(a);
+        params.setNombresTotal(e);
+    }
       /*******************************************************************************************************************************/
       public void Enregistrement (){
-          save();
+          safe();
            try {
             //Ici on enregistre le fichier
          
@@ -1252,6 +1299,7 @@ public class Save extends javax.swing.JFrame {
     
     private void EnvoyerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnvoyerActionPerformed
             //Enregistrement();
+         Valeurs();
          System.out.print(EssaisCadre.getRowCount());
          Alea();
          Info.setVisible(true);
@@ -1322,6 +1370,7 @@ public class Save extends javax.swing.JFrame {
             Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);
             }*/
             params.setOrientationInitiales(Integer.parseInt(Valeur_zero.getText()));
+            Valeurs();
             ardu.openConnection();
             Thread.sleep(1000);
             ardu.serialWrite("Init:"+Valeur_zero.getText()+":");
@@ -1333,6 +1382,9 @@ public class Save extends javax.swing.JFrame {
         if (RFTCheck.isSelected()){
             ValeurCadre vc = new ValeurCadre();
             vc.setVisible(true);
+        }else{
+            Suivant sv = new Suivant();
+            sv.setVisible(true);
         }
     }//GEN-LAST:event_ConfirmerActionPerformed
 
@@ -1377,18 +1429,9 @@ public class Save extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
-            Info.hide();
-            Zero.setVisible(true);
-            Zero.setTitle("Entrez la Valeur de Réference");
-            //ardu.openConnection();
-            Thread.sleep(500);
-          //  ardu.serialWrite(Valeur_zero.getText());
-         //   ardu.closeConnection();
-            
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Info.hide();
+        Zero.setVisible(true);
+        Zero.setTitle("Entrez la Valeur de Réference");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
