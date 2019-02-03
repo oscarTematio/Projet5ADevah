@@ -19,10 +19,11 @@ Remaplacer lature par test
 REmplacer Essai par orientation intiale 
 Remplacer Aléatoire tige par ordre orientation baguette
 Remplacer Zéro par valeur de réference 
-creer pour le fichier résultats  tout sous forme de ligne*/
+creer pour le fichier résultats  tout sous forme de ligne
+enlever la fenetre epour le cas VVS  et pour RFT*/
 package Interfaces;
 
-import Classes.Parametres;
+import Classes.Parametre;
 import arduino.Arduino;
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -51,7 +52,7 @@ public class Save extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public Parametres params = new Parametres();
+    public Parametre params = new Parametre();
     
     Writer conf;
     FileWriter config;
@@ -66,8 +67,8 @@ public class Save extends javax.swing.JFrame {
          CadrePnl.setVisible(false);
          setTitle(" Evaluation de L'Orientation  Spatiale");
         setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Oscar Teamatio\\Documents\\NetBeansProjects\\Devah\\src\\picture\\devah.png"));
-        ardu.setPortDescription("COM3");
-        ardu.setBaudRate(9600);
+        ardu.setPortDescription("COM7");
+        ardu.setBaudRate(57600);
      
      
     }
@@ -106,7 +107,31 @@ public class Save extends javax.swing.JFrame {
     }
       
       
-      
+/*******************************************************************************************************************************************/
+      public void erreur(){
+          if(RFTCheck.isSelected()==false && VVSCheck.isSelected()==false && AxeCheck.isSelected()==false){
+              ErreurNature.setVisible(true);
+          }
+          if(("").equals(NombreEssaiTige.getText())){
+              ErreurNbTige.setVisible(true);
+          }
+          if(RFTCheck.isSelected()){
+          if(("").equals(NombreEssaiCadre.getText())){
+              ErreurNbCadre.setVisible(true);
+          }
+          if(AleatoireCheckCadre.isSelected()==false && ContinueCheckCadre.isSelected()==false){
+              ErreurACadre.setVisible(true);
+          }
+          }
+          if(AleatoireCheckTige.isSelected()==false && ContinueCheckTige.isSelected()==false){
+              ErreurATige.setVisible(true);
+          }
+          
+         if(("").equals(Vitesse.getText())){
+              ErreurVitesse.setVisible(true);
+          } 
+          
+      }
       
 /*******************************************************************************************************************************************/
       public static int[] fusion ( int[] tab1, int[]tab2 )
@@ -386,11 +411,11 @@ public class Save extends javax.swing.JFrame {
                     System.out.println(ligne);
                     System.out.println(ligne.split(" ")[2]);
                     if (("OUI").equals(ligne.split(" ")[2])){
-                        params.setAleatoire(true);
+                        params.setAleatoireTige(true);
                         AleatoireCheckTige.setSelected(true);
                         ContinueCheckTige.setSelected(false);
                     }else {
-                        params.setAleatoire(false);
+                        params.setAleatoireTige(false);
                         AleatoireCheckTige.setSelected(false);
                         ContinueCheckTige.setSelected(true);
                     }
@@ -449,11 +474,11 @@ public class Save extends javax.swing.JFrame {
                     System.out.println(ligne);
                     System.out.println(ligne.split(" ")[2]);
                     if (("OUI").equals(ligne.split(" ")[2])){
-                        params.setAleatoire(true);
+                        params.setAleatoireCadre(true);
                         AleatoireCheckCadre.setSelected(true);
                         ContinueCheckCadre.setSelected(false);
                     }else {
-                        params.setAleatoire(false);
+                        params.setAleatoireCadre(false);
                         AleatoireCheckCadre.setSelected(false);
                         ContinueCheckCadre.setSelected(true);
                     }
@@ -509,6 +534,30 @@ public class Save extends javax.swing.JFrame {
         Confirmer = new javax.swing.JToggleButton();
         Valeur_zero = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        ErreurNature = new javax.swing.JDialog();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        ErreurVitesse = new javax.swing.JDialog();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        ErreurNbCadre = new javax.swing.JDialog();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        ErreurNbTige = new javax.swing.JDialog();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        ErreurACadre = new javax.swing.JDialog();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        ErreurATige = new javax.swing.JDialog();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jButton8 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         RFTCheck = new javax.swing.JCheckBox();
         VVSCheck = new javax.swing.JCheckBox();
@@ -541,6 +590,7 @@ public class Save extends javax.swing.JFrame {
         Nombredessai = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu6 = new javax.swing.JMenu();
         OuvrirJmenu = new javax.swing.JMenuItem();
@@ -665,6 +715,298 @@ public class Save extends javax.swing.JFrame {
         ZeroLayout.setVerticalGroup(
             ZeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        ErreurNature.setMinimumSize(new java.awt.Dimension(648, 228));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
+        jLabel10.setText("Vous devez Selectionner la nature de l'experience.");
+
+        jButton3.setText("OK");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addGap(17, 17, 17))
+        );
+
+        javax.swing.GroupLayout ErreurNatureLayout = new javax.swing.GroupLayout(ErreurNature.getContentPane());
+        ErreurNature.getContentPane().setLayout(ErreurNatureLayout);
+        ErreurNatureLayout.setHorizontalGroup(
+            ErreurNatureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        ErreurNatureLayout.setVerticalGroup(
+            ErreurNatureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        ErreurVitesse.setMinimumSize(new java.awt.Dimension(534, 228));
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel11.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
+        jLabel11.setText("Vous devez indiquer la vitesse");
+
+        jButton4.setText("OK");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(138, 138, 138))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(23, 23, 23))
+        );
+
+        javax.swing.GroupLayout ErreurVitesseLayout = new javax.swing.GroupLayout(ErreurVitesse.getContentPane());
+        ErreurVitesse.getContentPane().setLayout(ErreurVitesseLayout);
+        ErreurVitesseLayout.setHorizontalGroup(
+            ErreurVitesseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        ErreurVitesseLayout.setVerticalGroup(
+            ErreurVitesseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        ErreurNbCadre.setMinimumSize(new java.awt.Dimension(648, 228));
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
+        jLabel12.setText("Vous devez Indiquer le Nombre de Répetition du cadre.");
+
+        jButton5.setText("OK");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addGap(17, 17, 17))
+        );
+
+        javax.swing.GroupLayout ErreurNbCadreLayout = new javax.swing.GroupLayout(ErreurNbCadre.getContentPane());
+        ErreurNbCadre.getContentPane().setLayout(ErreurNbCadreLayout);
+        ErreurNbCadreLayout.setHorizontalGroup(
+            ErreurNbCadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        ErreurNbCadreLayout.setVerticalGroup(
+            ErreurNbCadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        ErreurNbTige.setMinimumSize(new java.awt.Dimension(648, 228));
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel13.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
+        jLabel13.setText("Vous devez Indiquer le Nombre de Répetition de la baguette.");
+
+        jButton6.setText("OK");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jButton6)
+                .addGap(17, 17, 17))
+        );
+
+        javax.swing.GroupLayout ErreurNbTigeLayout = new javax.swing.GroupLayout(ErreurNbTige.getContentPane());
+        ErreurNbTige.getContentPane().setLayout(ErreurNbTigeLayout);
+        ErreurNbTigeLayout.setHorizontalGroup(
+            ErreurNbTigeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        ErreurNbTigeLayout.setVerticalGroup(
+            ErreurNbTigeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        ErreurACadre.setMinimumSize(new java.awt.Dimension(648, 228));
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
+        jLabel14.setText("Vous devez Indiquer le format de présentation  du cadre.");
+
+        jButton7.setText("OK");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jButton7)
+                .addGap(17, 17, 17))
+        );
+
+        javax.swing.GroupLayout ErreurACadreLayout = new javax.swing.GroupLayout(ErreurACadre.getContentPane());
+        ErreurACadre.getContentPane().setLayout(ErreurACadreLayout);
+        ErreurACadreLayout.setHorizontalGroup(
+            ErreurACadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        ErreurACadreLayout.setVerticalGroup(
+            ErreurACadreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        ErreurATige.setMinimumSize(new java.awt.Dimension(678, 228));
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel15.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
+        jLabel15.setText("Vous devez Indiquer le format de présentation  de la baguette.");
+
+        jButton8.setText("OK");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87))
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jLabel15)
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap(82, Short.MAX_VALUE)
+                .addComponent(jLabel15)
+                .addGap(45, 45, 45)
+                .addComponent(jButton8)
+                .addGap(17, 17, 17))
+        );
+
+        javax.swing.GroupLayout ErreurATigeLayout = new javax.swing.GroupLayout(ErreurATige.getContentPane());
+        ErreurATige.getContentPane().setLayout(ErreurATigeLayout);
+        ErreurATigeLayout.setHorizontalGroup(
+            ErreurATigeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        ErreurATigeLayout.setVerticalGroup(
+            ErreurATigeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1002,6 +1344,10 @@ public class Save extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("tr/s");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1034,7 +1380,9 @@ public class Save extends javax.swing.JFrame {
                                         .addComponent(CadrePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
-                                        .addComponent(Vitesse, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(Vitesse, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(Envoyer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
@@ -1049,7 +1397,8 @@ public class Save extends javax.swing.JFrame {
                         .addComponent(AxeCheck)
                         .addComponent(Vitesse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)
-                        .addComponent(RFTCheck)))
+                        .addComponent(RFTCheck)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BaguettePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1157,7 +1506,7 @@ public class Save extends javax.swing.JFrame {
     private void ContinueCheckTigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContinueCheckTigeActionPerformed
         // TODO add your handling code here:
         Aleatoire= false;
-       
+         params.setAleatoireTige(Aleatoire);
         c = "NON";
     }//GEN-LAST:event_ContinueCheckTigeActionPerformed
 
@@ -1166,6 +1515,7 @@ public class Save extends javax.swing.JFrame {
         Aleatoire = true ;
         ContinueCheckTige.setSelected(false);
         c="OUI";
+        params.setAleatoireTige(Aleatoire);
     }//GEN-LAST:event_AleatoireCheckTigeActionPerformed
 
     private void AxeCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AxeCheckActionPerformed
@@ -1218,12 +1568,14 @@ public class Save extends javax.swing.JFrame {
         // TODO add your handling code here:
         b="NON";     
         AleatoireCheckCadre.setSelected(false);
+        params.setAleatoireCadre(false);
     }//GEN-LAST:event_ContinueCheckCadreActionPerformed
 
     private void AleatoireCheckCadreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AleatoireCheckCadreActionPerformed
         //Aléatoire Cadre 
         b="OUI";
        ContinueCheckCadre.setSelected(false);
+       params.setAleatoireCadre(true);
         
     }//GEN-LAST:event_AleatoireCheckCadreActionPerformed
 
@@ -1299,6 +1651,7 @@ public class Save extends javax.swing.JFrame {
     
     private void EnvoyerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnvoyerActionPerformed
             //Enregistrement();
+        erreur();
          Valeurs();
          System.out.print(EssaisCadre.getRowCount());
          Alea();
@@ -1311,7 +1664,7 @@ public class Save extends javax.swing.JFrame {
     }//GEN-LAST:event_Nombres_ValeursActionPerformed
 
     private void ConfirmerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmerActionPerformed
-        try {
+        
             /*  final JFrame fenetre = new JFrame();
             fenetre.setSize(200,200);
             fenetre.setLocationRelativeTo(null);
@@ -1371,20 +1724,17 @@ public class Save extends javax.swing.JFrame {
             }*/
             params.setOrientationInitiales(Integer.parseInt(Valeur_zero.getText()));
             Valeurs();
-            ardu.openConnection();
-            Thread.sleep(1000);
-            ardu.serialWrite("Init:"+Valeur_zero.getText()+":");
-            ardu.closeConnection();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Save.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+            params.setReference(Integer.parseInt( Valeur_zero.getText()));
+            
+                   
         if (RFTCheck.isSelected()){
             ValeurCadre vc = new ValeurCadre();
             vc.setVisible(true);
+            Zero.hide();
         }else{
             Suivant sv = new Suivant();
             sv.setVisible(true);
+            Zero.hide();
         }
     }//GEN-LAST:event_ConfirmerActionPerformed
 
@@ -1429,10 +1779,52 @@ public class Save extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Info.hide();
-        Zero.setVisible(true);
+        Info.dispose();
+        if(VVSCheck.isSelected()){
+            Zero.setVisible(true);
         Zero.setTitle("Entrez la Valeur de Réference");
+        }else if (RFTCheck.isSelected()){
+            ValeurCadre vc = new ValeurCadre();
+            vc.setVisible(true);
+            Zero.hide();
+        }else{
+            Suivant sv = new Suivant();
+            sv.setVisible(true);
+            Zero.hide();
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        ErreurNature.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        ErreurVitesse.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+     ErreurNbCadre.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        ErreurNbTige.dispose();
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        ErreurACadre.dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        ErreurATige.dispose();
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1493,6 +1885,12 @@ public int [] Tige;
     private javax.swing.JMenuItem Enregistrer;
     private javax.swing.JMenuItem EnregistrerSous;
     private javax.swing.JButton Envoyer;
+    private javax.swing.JDialog ErreurACadre;
+    private javax.swing.JDialog ErreurATige;
+    private javax.swing.JDialog ErreurNature;
+    private javax.swing.JDialog ErreurNbCadre;
+    private javax.swing.JDialog ErreurNbTige;
+    private javax.swing.JDialog ErreurVitesse;
     public javax.swing.JTable EssaisCadre;
     public javax.swing.JTable EssaisTige;
     private javax.swing.JDialog Info;
@@ -1514,7 +1912,19 @@ public int [] Tige;
     private javax.swing.JDialog Zero;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1522,6 +1932,7 @@ public int [] Tige;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1529,6 +1940,12 @@ public int [] Tige;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables

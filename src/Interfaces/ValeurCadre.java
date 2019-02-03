@@ -5,33 +5,44 @@
  */
 package Interfaces;
 
-import Classes.Parametres;
+import Classes.Parametre;
 import arduino.Arduino;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.Timer;
 
 /**
  *
  * @author Oscar Teamatio
  */
 public class ValeurCadre extends javax.swing.JFrame {
-    Parametres params = new Parametres();
+    Parametre params = new Parametre();
     int A[];
     int B[];
     String C ; 
     int D;
     String E[];
+    String a;
     Vector<String> V = new Vector<String>();
+    static Vector<String> R = new Vector<String>();
     String [] Valeu = new String[D];
     Arduino ardu = new Arduino();
  public ValeurCadre() {
         initComponents();
          
          
-         ardu.setPortDescription("COM3");
-         ardu.setBaudRate(9600);
+         ardu.setPortDescription("COM7");
+         ardu.setBaudRate(57600);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,10 +53,70 @@ public class ValeurCadre extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        vale = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        Valeur_recu = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         Valeur = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         Next = new javax.swing.JButton();
+
+        vale.setAlwaysOnTop(true);
+        vale.setMinimumSize(new java.awt.Dimension(633, 230));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Valeur :");
+
+        jButton2.setText("Terminé");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        Valeur_recu.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        Valeur_recu.setForeground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addComponent(jLabel3)
+                .addGap(28, 28, 28)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Valeur_recu, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(272, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(72, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Valeur_recu, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
+
+        javax.swing.GroupLayout valeLayout = new javax.swing.GroupLayout(vale.getContentPane());
+        vale.getContentPane().setLayout(valeLayout);
+        valeLayout.setHorizontalGroup(
+            valeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        valeLayout.setVerticalGroup(
+            valeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,6 +183,7 @@ public class ValeurCadre extends javax.swing.JFrame {
          B= params.getValeursTige();
          C=params.getNature();
          D=params.getNombresTotal();
+           
          System.out.println(D);
          for (int n=0;n<A.length;n++){
              for(int m =0;m<B.length;m++){
@@ -122,6 +194,25 @@ public class ValeurCadre extends javax.swing.JFrame {
           System.out.println("valeur"+V.size());
         
      }
+     public   void get(){
+       if (vale.isVisible()){
+            ardu.openConnection();
+            
+            
+            a =ardu.serialRead();
+            Valeur_recu.setText(a);
+            System.out.println(a);
+            
+       }else{
+           System.out.println("fermé");
+       }
+       
+    }
+    Timer timer = new Timer(200, new ActionListener() {
+   public void actionPerformed(ActionEvent ae) {
+   get();
+   }
+ });
     
     private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
         
@@ -132,18 +223,72 @@ public class ValeurCadre extends javax.swing.JFrame {
             Thread.sleep(1000);
            
              if ( i <D){
-                        System.out.println(i+" "+D);    
+                 ardu.serialWrite("Init:"+params.getReference());
+                        System.out.println("Val: "+V.get(i));    
+                        Thread.sleep(500);
+                        
+                        //System.out.println(i+" "+D);    
                        Valeur.setText(V.get(i).split(":")[1]);
                        ardu.serialWrite(V.get(i));
                         i++;
+            }else{
+                 final JFrame fenetre = new JFrame();
+                    fenetre.setSize(200,200);
+                    fenetre.setLocationRelativeTo(null);
+                    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    fenetre.setVisible(false);
+                    JFileChooser fc = new JFileChooser();
+                    int val_retour = fc.showSaveDialog(fc);
+                    
+                      File fichier1 = fc.getSelectedFile();
+                File fi = new File(fichier1.getAbsolutePath());
+                fi.createNewFile();
+            PrintWriter fichier = new PrintWriter(fichier1.getAbsolutePath());
+            fichier.println("Nature: " +C );
+            fichier.println("Vitesse: " + params.getVitesse());
+            fichier.println("-----------------------------------");
+            fichier.println("Orientations Initiales Baguette :"+Arrays.toString(B));
+           
+            
+            fichier.println("Aléatoire Baguette: "+params.isAleatoireTige());
+            fichier.println("Nombres de Répétition baguette: "+params.getNombredEssaiTige());
+            fichier.println("-----------------------------------");
+            fichier.println("Orientations Initiales Cadre: "+Arrays.toString(params.getValeursCadre()));
+            
+            fichier.println("Aléatoire Cadre: "+Parametre.isAleatoireCadre());
+            fichier.println("Nombres de Répétition Cadre: "+params.getNombredEssaiCadre());
+            fichier.println("--------------------------------------");
+            fichier.println("Nombres d'éssais: "+D);
+            fichier.println("Zéro:"+params.getReference());
+            fichier.println("--------------------------------------");
+            fichier.println("Résultats: {");
+            for (int v=0;v<D;v++){
+                fichier.println(V.get(v)+"--->"+R.get(v));
             }
-            ardu.closeConnection();
+                fichier.println("}");
+
+            fichier.close();
+            System.exit(0);
+             }
+           
         } catch (InterruptedException ex) {
             Logger.getLogger(ValeurCadre.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ValeurCadre.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ValeurCadre.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+       vale.setVisible(true);
+       timer.setRepeats(true);
+       timer.start();
     
     }//GEN-LAST:event_NextActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        R.add(Valeur_recu.getText());
+        vale.dispose();
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,8 +329,13 @@ public class ValeurCadre extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Next;
     private javax.swing.JLabel Valeur;
+    public static javax.swing.JLabel Valeur_recu;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private static javax.swing.JDialog vale;
     // End of variables declaration//GEN-END:variables
 
     /**
