@@ -16,6 +16,8 @@ public class Acceuil extends javax.swing.JFrame {
      */
     public Acceuil() {
         initComponents();
+        
+        
     }
 
     /**

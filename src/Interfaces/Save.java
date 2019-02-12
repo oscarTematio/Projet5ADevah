@@ -60,9 +60,12 @@ public class Save extends javax.swing.JFrame {
     Arduino ardu = new Arduino();
     
     public Save(){
+       
                 setBackground(Color.WHITE);
 
         initComponents();
+        
+        
          safe();
          CadrePnl.setVisible(false);
          setTitle(" Evaluation de L'Orientation  Spatiale");
@@ -145,138 +148,86 @@ public class Save extends javax.swing.JFrame {
     }
  /*/***************************************************************************************************************************************/     
       public void Alea(){
+          int k=EssaisCadre.getRowCount()*Integer.parseInt(NombreEssaiCadre.getText());
+          int j=EssaisTige.getRowCount()*Integer.parseInt(NombreEssaiTige.getText());
+           Vector<Integer> B = new Vector<Integer>();
            Vector<Integer> C = new Vector<Integer>();
            int AngleCadre []= new int[EssaisCadre.getRowCount()];
+            int AngleCA []= new int[0];
+            int AngleCadres[]=new int[k]; 
+            int AngleTige []= new int[EssaisTige.getRowCount()];
+            int AngleTA []= new int [0];
+            int AngleTiges[]= new int [j];
       if(RFTCheck.isSelected()){     
+          
+            for(int i=0 ;i<EssaisCadre.getRowCount();i++){
+                AngleCadre[i] =Integer.parseInt((String) EssaisCadre.getModel().getValueAt(i, 0));
+            }
+             for(int p=0;p<Integer.parseInt(NombreEssaiCadre.getText());p++){
+              AngleCA = fusion(AngleCA,AngleCadre); 
+            }
+            
         if(AleatoireCheckCadre.isSelected()){
          
-          for (int u=0;u<EssaisCadre.getRowCount();u++){
-              C.addElement(Integer.parseInt((String) EssaisCadre.getModel().getValueAt(u, 0)));
+          for (int u=0;u<AngleCA.length;u++){
+              C.addElement(AngleCA[u]);
           }
           System.out.println(C);
           
           Random ran = new Random();
           //int index=ran.nextInt(C.size());
           
-          for (int u=0;u<EssaisCadre.getRowCount();u++){
+          for (int u=0;u<AngleCA.length;u++){
               //on choisit l'index aléatoire 
               int index=ran.nextInt(C.size());
               System.out.println(C.get(index)+"  "+ index);
               //on ajoute la valeur dans le Tableau 
-              AngleCadre[u]= C.get(index);
+              AngleCadres[u]= C.get(index);
               //on supprime ce qu'on vient de mettre 
               C.remove(index);
           }
-            int AngleCA []= new int[0];
-           for(int p=0;p<Integer.parseInt(NombreEssaiCadre.getText());p++){
-              AngleCA = fusion(AngleCA,AngleCadre); 
-            }
-           System.out.println(Arrays.toString(AngleCA));
-           params.setValeursCadre(AngleCA);
+           
+          
+           System.out.println(Arrays.toString(AngleCadres));
+           params.setValeursCadre(AngleCadres);
         }else{
-            int AngleCadreC [] = new int[EssaisCadre.getRowCount()];
-            
-            for(int v=0;v<EssaisCadre.getRowCount();v++){
-                AngleCadreC[v]=Integer.parseInt((String)(EssaisCadre.getModel().getValueAt(v, 0)));    
-            }
-            int AngleCC[] = new int [0];
-            for(int p=0;p<Integer.parseInt(NombreEssaiCadre.getText());p++){
-              AngleCC = fusion(AngleCC,AngleCadreC); 
-            }
-            params.setValeursCadre(AngleCC);
-            System.out.println(Arrays.toString(AngleCadreC));
-            System.out.println(Arrays.toString(AngleCC));
+            Parametre.setValeursCadre(AngleCA);
         }
-       
-         Vector<Integer> B = new Vector<Integer>();
-         int AngleTige []= new int[EssaisTige.getRowCount()];
-        if(AleatoireCheckTige.isSelected()){
+      }
+        
          
-          for (int u=0;u<EssaisTige.getRowCount();u++){
-              B.addElement(Integer.parseInt((String) EssaisTige.getModel().getValueAt(u, 0)));
-              
+          for(int i=0 ;i<EssaisTige.getRowCount();i++){
+                AngleTige[i] =Integer.parseInt((String) EssaisTige.getModel().getValueAt(i, 0));
+            }
+          for(int p=0;p<Integer.parseInt(NombreEssaiTige.getText());p++){
+              AngleTA = fusion(AngleTA,AngleTige); 
+            }
+          System.out.println(Arrays.toString(AngleTiges));
+        if(AleatoireCheckTige.isSelected()){
+          for (int u=0;u<AngleTA.length;u++){
+              B.addElement(AngleTA[u]);
             }
           
-          
-          Random ran = new Random();
+         Random ran = new Random();
           //int index=ran.nextInt(C.size());
           
-          for (int u=0;u<EssaisTige.getRowCount();u++){
+          for (int u=0;u<AngleTA.length;u++){
               //on choisit l'index aléatoire 
               int index=ran.nextInt(B.size());
               System.out.println(B.get(index)+"  "+ index);
               //on ajoute la valeur dans le Tableau 
-              AngleTige[u]= B.get(index);
+              AngleTiges[u]= B.get(index);
               //on supprime ce qu'on vient de mettre 
               B.remove(index);
             }
-           int AngleTA []= new int [0];
-           for(int p=0;p<Integer.parseInt(NombreEssaiTige.getText());p++){
-              AngleTA = fusion(AngleTA,AngleTige); 
-            }
-          params.setValeursTige(AngleTA);
-          System.out.println(Arrays.toString(AngleTA));
+           
+       
+          params.setValeursTige(AngleTiges);
+          System.out.println(Arrays.toString(AngleTiges));
         }else{
-            int AngleTigeC [] = new int[EssaisTige.getRowCount()];
-            
-            for(int v=0;v<EssaisTige.getRowCount();v++){
-                AngleTigeC[v]=Integer.parseInt( (String)EssaisTige.getModel().getValueAt(v, 0));    
-            }
-            int AngleTC [] = new int [0];
-             for(int p=0;p<Integer.parseInt(NombreEssaiTige.getText());p++){
-              AngleTC = fusion(AngleTC,AngleTigeC); 
-            }
-            params.setValeursTige(AngleTC);
+            params.setValeursTige(AngleTA);
         }
         params.setNombredEssaiCadre(Integer.parseInt(NombreEssaiCadre.getText()));
-        
-        
-      }
-      else{
-          
-           Vector<Integer> B = new Vector<Integer>();
-         int AngleTige []= new int[EssaisTige.getRowCount()];
-       if(AleatoireCheckTige.isSelected()){
-         
-          for (int u=0;u<EssaisTige.getRowCount();u++){
-              B.addElement(Integer.parseInt((String) EssaisTige.getModel().getValueAt(u, 0)));
-              
-            }
-          
-          
-          Random ran = new Random();
-          //int index=ran.nextInt(C.size());
-          
-          for (int u=0;u<EssaisTige.getRowCount();u++){
-              //on choisit l'index aléatoire 
-              int index=ran.nextInt(B.size());
-              System.out.println(B.get(index)+"  "+ index);
-              //on ajoute la valeur dans le Tableau 
-              AngleTige[u]= B.get(index);
-              //on supprime ce qu'on vient de mettre 
-              B.remove(index);
-            }
-           int AngleTA []= new int [0];
-           for(int p=0;p<Integer.parseInt(NombreEssaiTige.getText());p++){
-              AngleTA = fusion(AngleTA,AngleTige); 
-            }
-          params.setValeursTige(AngleTA);
-          System.out.println(Arrays.toString(AngleTA));
-        }else{
-            int AngleTigeC [] = new int[EssaisTige.getRowCount()];
-            
-            for(int v=0;v<EssaisTige.getRowCount();v++){
-                AngleTigeC[v]=Integer.parseInt( (String)EssaisTige.getModel().getValueAt(v, 0));    
-            }
-            int AngleTC [] = new int [0];
-             for(int p=0;p<Integer.parseInt(NombreEssaiTige.getText());p++){
-              AngleTC = fusion(AngleTC,AngleTigeC); 
-            }
-            params.setValeursTige(AngleTC);
-        }   
-      }
-      
-        
         params.setNombredEssaiTige(Integer.parseInt(NombreEssaiTige.getText()));
         params.setVitesse(Integer.parseInt(Vitesse.getText()));
         params.setNature(a);
