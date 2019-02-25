@@ -20,7 +20,10 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -43,6 +46,7 @@ public class ValeurCadre extends javax.swing.JFrame {
     Arduino ardu = new Arduino();
  public ValeurCadre() {
         initComponents();
+        setTitle("Résultats en cours");
         val();
         table();
         centerTable();
@@ -147,7 +151,7 @@ public class ValeurCadre extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "N° d' Essai", "Orientation de la Baguette(deg)", "Orientation du cadre ", "Orientaion Validé de la baguette", "Tems d'ajustement ", "Invalidation de l'essai"
+                "N° de l'essai", "Orientation init. Baguette (deg)", "Orientation Cadre (deg)", "Orientation finale Baguette (deg)", "Temps d'ajustement (ms)", "Invalidation de l'essai"
             }
         ) {
             Class[] types = new Class [] {
@@ -203,23 +207,7 @@ public class ValeurCadre extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-     public void changeSize(int width, int height){
-    //Nous créons un objet TableColumn afin de travailler sur notre colonne
-    TableColumn col;
-    for(int i = 0; i < ValeurTable.getColumnCount(); i++){
-      if(i == 1){
-        //On récupère le modèle de la colonne
-        col = ValeurTable.getColumnModel().getColumn(i);
-        //On lui affecte la nouvelle valeur
-        col.setPreferredWidth(width);
-      }
-    }            
-    for(int i = 0; i < ValeurTable.getRowCount(); i++){
-      //On affecte la taille de la ligne à l'indice spécifié !
-      if(i == 1)
-        ValeurTable.setRowHeight(i, height);
-      }
-    } 
+  
       public void centerTable() {
             DefaultTableCellRenderer custom = new DefaultTableCellRenderer(); 
             custom.setHorizontalAlignment(JLabel.CENTER); // centre les données de ton tableau
@@ -268,7 +256,7 @@ public class ValeurCadre extends javax.swing.JFrame {
     Timer timer = new Timer(200, new ActionListener() {
    public void actionPerformed(ActionEvent ae) {
    get();
-    if(ValeurTable.getValueAt(i, 1).equals(ValeurTable.getValueAt(i, 3))){
+    if(ValeurTable.getValueAt(i-1, 1).equals(ValeurTable.getValueAt(i-1, 3))){
       ValeurTable.setValueAt("OK", i-1, 5);
         } 
    }
@@ -304,29 +292,39 @@ public class ValeurCadre extends javax.swing.JFrame {
                     int val_retour = fc.showSaveDialog(fc);
                     
                       File fichier1 = fc.getSelectedFile();
-                File fi = new File(fichier1.getAbsolutePath());
+                File fi = new File(fichier1.getAbsolutePath()+".txt");
                 fi.createNewFile();
-            PrintWriter fichier = new PrintWriter(fichier1.getAbsolutePath());
-            fichier.println("Nature: " +C );
-            fichier.println("Vitesse: " + params.getVitesse());
+            PrintWriter fichier = new PrintWriter(fichier1.getAbsolutePath()+".txt");
+            fichier.println("Test: " +C );
+            fichier.println("Vitesse d'ajustement: " + params.getVitesse());
             fichier.println("-----------------------------------");
-            fichier.println("Orientations Initiales Baguette :"+Arrays.toString(B));
+            fichier.println("Bag. Orientation init.:"+Arrays.toString(B));
            
             
-            fichier.println("Aléatoire Baguette: "+params.isAleatoireTige());
-            fichier.println("Nombres de Répétition baguette: "+params.getNombredEssaiTige());
+            fichier.println("Bag. Aléatoire: "+params.isAleatoireTige());
+            fichier.println("Bag. Nombre de répétition: "+params.getNombredEssaiTige());
             fichier.println("-----------------------------------");
-            fichier.println("Orientations Initiales Cadre: "+Arrays.toString(params.getValeursCadre()));
+            fichier.println("Cadre Orientation init. : "+Arrays.toString(params.getValeursCadre()));
             
-            fichier.println("Aléatoire Cadre: "+Parametre.isAleatoireCadre());
-            fichier.println("Nombres de Répétition Cadre: "+params.getNombredEssaiCadre());
+            fichier.println("Cadre Aléatoire: "+Parametre.isAleatoireCadre());
+            fichier.println("Cadre Nombre de répétition: "+params.getNombredEssaiCadre());
             fichier.println("--------------------------------------");
-            fichier.println("Nombres d'éssais: "+D);
+            fichier.println("Nombre d'essai: "+D);
             fichier.println("Zéro:"+params.getReference());
             fichier.println("--------------------------------------");
             fichier.println("Résultats: {");
             for (int v=0;v<D;v++){
-                fichier.println(V.get(v)+"--->"+R.get(v));
+                fichier.println("--------------------------------------");
+                //fichier.print(ValeurTable.getValueAt(v, 0));
+                fichier.print(ValeurTable.getValueAt(v, 1));
+                fichier.print("-->");
+                fichier.print(ValeurTable.getValueAt(v, 2));
+                fichier.print("-->");
+                fichier.print(ValeurTable.getValueAt(v, 3));
+                fichier.print("-->");
+                fichier.print(ValeurTable.getValueAt(v, 4));
+                fichier.print("-->");
+                fichier.println(ValeurTable.getValueAt(v, 5));
             }
                 fichier.println("}");
 
@@ -341,7 +339,7 @@ public class ValeurCadre extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(ValeurCadre.class.getName()).log(Level.SEVERE, null, ex);
         }
-       vale.setVisible(true);
+      
        timer.setRepeats(true);
        timer.start();
     
@@ -383,7 +381,16 @@ public class ValeurCadre extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ValeurCadre().setVisible(true);
+              ValeurCadre val=  new ValeurCadre();
+                      val.setVisible(true);
+                try { 
+   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
+   SwingUtilities.updateComponentTreeUI(val); 
+   //force chaque composant de la fenêtre à appeler sa méthode updateUI 
+} catch (InstantiationException e) { 
+} catch (ClassNotFoundException e) { 
+} catch (UnsupportedLookAndFeelException e) { 
+} catch (IllegalAccessException e) {}
             }
         });
     }

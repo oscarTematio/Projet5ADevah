@@ -41,6 +41,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -68,7 +71,7 @@ public class Save extends javax.swing.JFrame {
         
          safe();
          CadrePnl.setVisible(false);
-         setTitle(" Evaluation de L'Orientation  Spatiale");
+         setTitle("Configuration");
         setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Oscar Teamatio\\Documents\\NetBeansProjects\\Devah\\src\\picture\\devah.png"));
         ardu.setPortDescription("COM7");
         ardu.setBaudRate(57600);
@@ -148,18 +151,19 @@ public class Save extends javax.swing.JFrame {
     }
  /*/***************************************************************************************************************************************/     
       public void Alea(){
-          int k=EssaisCadre.getRowCount()*Integer.parseInt(NombreEssaiCadre.getText());
+         
           int j=EssaisTige.getRowCount()*Integer.parseInt(NombreEssaiTige.getText());
            Vector<Integer> B = new Vector<Integer>();
            Vector<Integer> C = new Vector<Integer>();
-           int AngleCadre []= new int[EssaisCadre.getRowCount()];
+           
             int AngleCA []= new int[0];
             int AngleCadres[]=new int[k]; 
             int AngleTige []= new int[EssaisTige.getRowCount()];
             int AngleTA []= new int [0];
             int AngleTiges[]= new int [j];
       if(RFTCheck.isSelected()){     
-          
+             int k=EssaisCadre.getRowCount()*Integer.parseInt(NombreEssaiCadre.getText());
+             int AngleCadre []= new int[EssaisCadre.getRowCount()];
             for(int i=0 ;i<EssaisCadre.getRowCount();i++){
                 AngleCadre[i] =Integer.parseInt((String) EssaisCadre.getModel().getValueAt(i, 0));
             }
@@ -193,6 +197,7 @@ public class Save extends javax.swing.JFrame {
         }else{
             Parametre.setValeursCadre(AngleCA);
         }
+        params.setNombredEssaiCadre(Integer.parseInt(NombreEssaiCadre.getText()));
       }
         
          
@@ -227,7 +232,7 @@ public class Save extends javax.swing.JFrame {
         }else{
             params.setValeursTige(AngleTA);
         }
-        params.setNombredEssaiCadre(Integer.parseInt(NombreEssaiCadre.getText()));
+      
         params.setNombredEssaiTige(Integer.parseInt(NombreEssaiTige.getText()));
         params.setVitesse(Integer.parseInt(Vitesse.getText()));
         params.setNature(a);
@@ -241,10 +246,10 @@ public class Save extends javax.swing.JFrame {
          
            PrintWriter fichier = new PrintWriter("C:\\Users\\Public\\Documents\\Config.txt");
             fichier.println("");
-            fichier.println("Nature: " +a );
-            fichier.println("Vitesse: " + Vitesse.getText());
+            fichier.println("Test: " +a );
+            fichier.println("Vitesse d'ajustement: " + Vitesse.getText());
             fichier.println("-----------------------------------");
-            fichier.print("Orientations Initiales Baguette [");
+            fichier.print("Bag. Orientation init. : [");
             for(i=0;i <EssaisTige.getRowCount();i++){
                 if (i!=(EssaisTige.getRowCount()-1)){
                     
@@ -255,10 +260,10 @@ public class Save extends javax.swing.JFrame {
                 }
             }
             fichier.println("]");
-            fichier.println("Aléatoire Baguette: "+c);
-            fichier.println("Nombres de Répétition Baguette: "+NombreEssaiTige.getText());
+            fichier.println("Bag. Aléatoire: "+c);
+            fichier.println("Bag. Nombre de répétition: "+NombreEssaiTige.getText());
             fichier.println("-----------------------------------");
-            fichier.print("Orientations Initiales Cadre [");
+            fichier.print("Cadre Orientation init. : [");
             for(i=0;i <EssaisCadre.getRowCount();i++){
                 if (i!=(EssaisCadre.getRowCount()-1)){
                     
@@ -269,10 +274,10 @@ public class Save extends javax.swing.JFrame {
                 }
             }
             fichier.println("]");
-            fichier.println("Aléatoire Cadre: "+b);
-            fichier.println("Nombres de Répétition Cadre: "+NombreEssaiCadre.getText());
+            fichier.println("Cadre Aléatoire: "+b);
+            fichier.println("Cadre Nombres de répétition: "+NombreEssaiCadre.getText());
             fichier.println("-------------------------------------");
-            fichier.println("NombreD'essais: " +Nombredessai.getText());
+            fichier.println("Nombre d'essai: " +Nombredessai.getText());
             fichier.close();
 
             
@@ -550,8 +555,8 @@ public class Save extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         Nombres_Valeurs = new javax.swing.JMenuItem();
 
-        Info.setMinimumSize(new java.awt.Dimension(711, 262));
-        Info.setResizable(false);
+        Info.setMinimumSize(new java.awt.Dimension(840, 262));
+        Info.setPreferredSize(new java.awt.Dimension(822, 262));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -559,7 +564,7 @@ public class Save extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/imogy.png"))); // NOI18N
-        jLabel6.setText(" A l'aide du joystick, Placer La baguette à  la Verticale.");
+        jLabel6.setText(" A l'aide de la manette, placer la baguette à la Verticale gravitaire.");
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -582,7 +587,7 @@ public class Save extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -607,7 +612,7 @@ public class Save extends javax.swing.JFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
-        Zero.setMinimumSize(new java.awt.Dimension(687, 276));
+        Zero.setMinimumSize(new java.awt.Dimension(766, 276));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setForeground(new java.awt.Color(51, 51, 51));
@@ -626,7 +631,7 @@ public class Save extends javax.swing.JFrame {
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel4.setText("Entrer l'Angle de Réference :");
+        jLabel4.setText("  Précisez la valeur de référence de l'ajustement :");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -635,15 +640,12 @@ public class Save extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(Confirmer, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
+                    .addComponent(Confirmer, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(Valeur_zero, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(158, Short.MAX_VALUE))))
+                        .addComponent(Valeur_zero, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -652,9 +654,9 @@ public class Save extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Valeur_zero, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
+                .addGap(42, 42, 42)
                 .addComponent(Confirmer, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout ZeroLayout = new javax.swing.GroupLayout(Zero.getContentPane());
@@ -675,7 +677,7 @@ public class Save extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(51, 51, 51));
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
-        jLabel10.setText("Vous devez Selectionner la nature de l'experience.");
+        jLabel10.setText("   Vous devez choisir un test !");
 
         jButton3.setText("OK");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -716,14 +718,14 @@ public class Save extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        ErreurVitesse.setMinimumSize(new java.awt.Dimension(534, 228));
+        ErreurVitesse.setMinimumSize(new java.awt.Dimension(727, 228));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(51, 51, 51));
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
-        jLabel11.setText("Vous devez indiquer la vitesse");
+        jLabel11.setText("   Vous devez indiquer la vitesse de rotation de la baguette !");
 
         jButton4.setText("OK");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -736,14 +738,14 @@ public class Save extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(138, 138, 138))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -759,21 +761,21 @@ public class Save extends javax.swing.JFrame {
         ErreurVitesse.getContentPane().setLayout(ErreurVitesseLayout);
         ErreurVitesseLayout.setHorizontalGroup(
             ErreurVitesseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         ErreurVitesseLayout.setVerticalGroup(
             ErreurVitesseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        ErreurNbCadre.setMinimumSize(new java.awt.Dimension(648, 228));
+        ErreurNbCadre.setMinimumSize(new java.awt.Dimension(674, 228));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(51, 51, 51));
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
-        jLabel12.setText("Vous devez Indiquer le Nombre de Répetition du cadre.");
+        jLabel12.setText("  Vous devez indiquer le nombre de répétition pour le cadre !");
 
         jButton5.setText("OK");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -787,11 +789,12 @@ public class Save extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(517, 517, 517)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(55, Short.MAX_VALUE))
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(56, 56, 56)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -814,14 +817,14 @@ public class Save extends javax.swing.JFrame {
             .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        ErreurNbTige.setMinimumSize(new java.awt.Dimension(648, 228));
+        ErreurNbTige.setMinimumSize(new java.awt.Dimension(665, 228));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
-        jLabel13.setText("Vous devez Indiquer le Nombre de Répetition de la baguette.");
+        jLabel13.setText("  Vous devez indiquer le nombre de répétition pour la baguette !");
 
         jButton6.setText("OK");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -839,7 +842,7 @@ public class Save extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -862,14 +865,14 @@ public class Save extends javax.swing.JFrame {
             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        ErreurACadre.setMinimumSize(new java.awt.Dimension(648, 228));
+        ErreurACadre.setMinimumSize(new java.awt.Dimension(670, 228));
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(51, 51, 51));
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
-        jLabel14.setText("Vous devez Indiquer le format de présentation  du cadre.");
+        jLabel14.setText("   Vous devez préciser l'ordre de présentation pour le cadre !");
 
         jButton7.setText("OK");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -887,7 +890,7 @@ public class Save extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -917,7 +920,7 @@ public class Save extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(51, 51, 51));
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/637560.jpg"))); // NOI18N
-        jLabel15.setText("Vous devez Indiquer le format de présentation  de la baguette.");
+        jLabel15.setText("   Vous devez préciser l'ordre de présentation pour la baguette !");
 
         jButton8.setText("OK");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -937,7 +940,7 @@ public class Save extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jLabel15)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -998,10 +1001,10 @@ public class Save extends javax.swing.JFrame {
             }
         });
 
-        Envoyer.setBackground(new java.awt.Color(255, 255, 255));
-        Envoyer.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        Envoyer.setBackground(new java.awt.Color(204, 204, 204));
+        Envoyer.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         Envoyer.setForeground(new java.awt.Color(0, 0, 0));
-        Envoyer.setText("Paramétrer ");
+        Envoyer.setText("Calibration");
         Envoyer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EnvoyerActionPerformed(evt);
@@ -1015,7 +1018,7 @@ public class Save extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("  Orientation Initiale :");
+        jLabel1.setText("  Orientation initiale :");
 
         EssaisTige.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         EssaisTige.setForeground(new java.awt.Color(51, 51, 51));
@@ -1055,7 +1058,7 @@ public class Save extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Nombe de Répetitions  : ");
+        jLabel2.setText("Nombre de répétition  : ");
 
         AleatoireCheckTige.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         AleatoireCheckTige.setForeground(new java.awt.Color(0, 0, 0));
@@ -1069,7 +1072,7 @@ public class Save extends javax.swing.JFrame {
 
         ContinueCheckTige.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         ContinueCheckTige.setForeground(new java.awt.Color(0, 0, 0));
-        ContinueCheckTige.setText("En Block");
+        ContinueCheckTige.setText("En bloc");
         ContinueCheckTige.setOpaque(false);
         ContinueCheckTige.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1087,52 +1090,53 @@ public class Save extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel7.setText("Structure des Valeurs :");
+        jLabel7.setText("Ordre de présentation :");
 
         javax.swing.GroupLayout BaguettePnlLayout = new javax.swing.GroupLayout(BaguettePnl);
         BaguettePnl.setLayout(BaguettePnlLayout);
         BaguettePnlLayout.setHorizontalGroup(
             BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BaguettePnlLayout.createSequentialGroup()
-                .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(BaguettePnlLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel7))
+                        .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(BaguettePnlLayout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(AleatoireCheckTige)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ContinueCheckTige))
+                            .addGroup(BaguettePnlLayout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(NombreEssaiTige))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, BaguettePnlLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(BaguettePnlLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)
-                        .addGap(25, 25, 25)
-                        .addComponent(NombreEssaiTige, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BaguettePnlLayout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel7)
-                        .addGap(57, 57, 57)
-                        .addComponent(AleatoireCheckTige)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
-                .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ContinueCheckTige)
-                    .addGroup(BaguettePnlLayout.createSequentialGroup()
-                        .addComponent(Nouveau_Tige)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SupprimerLigneTige, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addComponent(Nouveau_Tige)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SupprimerLigneTige, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         BaguettePnlLayout.setVerticalGroup(
             BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BaguettePnlLayout.createSequentialGroup()
                 .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BaguettePnlLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BaguettePnlLayout.createSequentialGroup()
+                            .addGap(60, 60, 60)
+                            .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(Nouveau_Tige)
-                                .addComponent(SupprimerLigneTige)))))
+                                .addComponent(SupprimerLigneTige))))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(BaguettePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NombreEssaiTige, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1173,17 +1177,17 @@ public class Save extends javax.swing.JFrame {
 
         OrientationCadres.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         OrientationCadres.setForeground(new java.awt.Color(0, 0, 0));
-        OrientationCadres.setText("  Orientation Initiale :");
+        OrientationCadres.setText("  Orientation initiale :");
 
         NombreEssaiCadre.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
 
         NombreRep.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         NombreRep.setForeground(new java.awt.Color(0, 0, 0));
-        NombreRep.setText("Nombe de Répetitions  : ");
+        NombreRep.setText("Nombre de répétition  : ");
 
         ContinueCheckCadre.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         ContinueCheckCadre.setForeground(new java.awt.Color(0, 0, 0));
-        ContinueCheckCadre.setText("En Block");
+        ContinueCheckCadre.setText("En bloc");
         ContinueCheckCadre.setOpaque(false);
         ContinueCheckCadre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1211,9 +1215,9 @@ public class Save extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel8.setText("Structure des Valeurs :");
+        jLabel8.setText("Ordre de présentation :");
 
         javax.swing.GroupLayout CadrePnlLayout = new javax.swing.GroupLayout(CadrePnl);
         CadrePnl.setLayout(CadrePnlLayout);
@@ -1227,23 +1231,24 @@ public class Save extends javax.swing.JFrame {
                             .addComponent(OrientationCadres, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(NombreRep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(CadrePnlLayout.createSequentialGroup()
-                        .addContainerGap(9, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(CadrePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(CadrePnlLayout.createSequentialGroup()
                         .addComponent(AleatoireCheckCadre)
-                        .addGap(29, 29, 29)
-                        .addComponent(ContinueCheckCadre))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ContinueCheckCadre)
+                        .addGap(99, 99, 99))
                     .addGroup(CadrePnlLayout.createSequentialGroup()
-                        .addGroup(CadrePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(NombreEssaiCadre, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
+                        .addGroup(CadrePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(NombreEssaiCadre, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
+                        .addGap(24, 24, 24)
                         .addComponent(Nouveau_Cadre1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SupprimmerLigneCadre, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(45, 45, 45))
+                        .addComponent(SupprimmerLigneCadre, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))))
         );
         CadrePnlLayout.setVerticalGroup(
             CadrePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1254,7 +1259,7 @@ public class Save extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(OrientationCadres, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(CadrePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(CadrePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NombreRep, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(NombreEssaiCadre, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
@@ -1264,7 +1269,7 @@ public class Save extends javax.swing.JFrame {
                     .addComponent(ContinueCheckCadre))
                 .addContainerGap())
             .addGroup(CadrePnlLayout.createSequentialGroup()
-                .addGap(131, 131, 131)
+                .addGap(72, 72, 72)
                 .addGroup(CadrePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Nouveau_Cadre1)
                     .addComponent(SupprimmerLigneCadre))
@@ -1276,7 +1281,7 @@ public class Save extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Vitesse :");
+        jLabel3.setText("Vit. Baguette  :");
 
         Nombredessai.setBackground(new java.awt.Color(255, 255, 255));
         Nombredessai.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -1287,7 +1292,7 @@ public class Save extends javax.swing.JFrame {
         jLabel5.setText("Choix du Test :");
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jButton1.setText("Nombre d'essai :");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1297,7 +1302,7 @@ public class Save extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("tr/s");
+        jLabel9.setText("deg/s");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1305,62 +1310,68 @@ public class Save extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Nombredessai, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGap(243, 243, 243)
+                            .addComponent(Envoyer, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(BaguettePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(RFTCheck)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(VVSCheck)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(AxeCheck)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel3)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(50, 50, 50)
+                                    .addComponent(CadrePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(Vitesse, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(BaguettePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(RFTCheck)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(VVSCheck)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(AxeCheck)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel3)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(50, 50, 50)
-                                        .addComponent(CadrePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(Vitesse, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(Envoyer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(12, Short.MAX_VALUE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Nombredessai, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(VVSCheck)
-                        .addComponent(AxeCheck)
-                        .addComponent(Vitesse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(RFTCheck)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BaguettePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CadrePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(132, 132, 132)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Nombredessai, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addComponent(Envoyer, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(Envoyer, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(VVSCheck)
+                                .addComponent(AxeCheck)
+                                .addComponent(Vitesse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3)
+                                .addComponent(RFTCheck)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 69, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BaguettePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CadrePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Nombredessai, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(114, 114, 114)))
+                .addGap(103, 103, 103))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(153, 153, 153));
@@ -1458,6 +1469,7 @@ public class Save extends javax.swing.JFrame {
         // TODO add your handling code here:
         Aleatoire= false;
          params.setAleatoireTige(Aleatoire);
+         AleatoireCheckTige.setSelected(false);
         c = "NON";
     }//GEN-LAST:event_ContinueCheckTigeActionPerformed
 
@@ -1607,7 +1619,7 @@ public class Save extends javax.swing.JFrame {
          System.out.print(EssaisCadre.getRowCount());
          Alea();
          Info.setVisible(true);
-         Info.setTitle("Placez la Baguette à la Verticale");
+         Info.setTitle("Calibration");
     }//GEN-LAST:event_EnvoyerActionPerformed
 
     private void Nombres_ValeursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Nombres_ValeursActionPerformed
@@ -1731,10 +1743,11 @@ public class Save extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Info.dispose();
-        if(VVSCheck.isSelected()){
+        if(AxeCheck.isSelected()){
             Zero.setVisible(true);
-        Zero.setTitle("Entrez la Valeur de Réference");
-        }else if (RFTCheck.isSelected()){
+        Zero.setTitle("Valeur de Réference");
+        }else 
+        if (RFTCheck.isSelected()){
             ValeurCadre vc = new ValeurCadre();
             vc.setVisible(true);
             Zero.hide();
@@ -1808,7 +1821,16 @@ public class Save extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Save().setVisible(true);
+             Save sav =   new Save();
+                     sav.setVisible(true);
+                try { 
+   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
+   SwingUtilities.updateComponentTreeUI(sav); 
+   //force chaque composant de la fenêtre à appeler sa méthode updateUI 
+} catch (InstantiationException e) { 
+} catch (ClassNotFoundException e) { 
+} catch (UnsupportedLookAndFeelException e) { 
+} catch (IllegalAccessException e) {}
             }
         });
     }

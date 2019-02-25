@@ -7,7 +7,6 @@ package Interfaces;
 
 import Classes.Parametre;
 import arduino.Arduino;
-import gnu.io.SerialPortEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,7 +18,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -44,33 +46,20 @@ public class Suivant extends javax.swing.JFrame {
    static  Arduino ardu = new Arduino();
     public Suivant() {
         initComponents();
+        setTitle("Résultats en cours");
          ardu.setPortDescription("COM7");
          ardu.setBaudRate(57600);
          B= params.getValeursTige();
          C=params.getNature();
          D=params.getNombresTotal();
+          val();
+        table();
+        centerTable();
          
        
          
     }
-    public  void serialEvent(SerialPortEvent oEvent) {
-		
-                      
-			try {
-                           // BufferedReader input=new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
-			     
-                             inputLine = ardu.serialRead();
-                             
-                             Valeur_recu.setText(inputLine);
-                                                                
-                                   
-			} catch (Exception e) {
-				System.err.println(e.toString());
-			}
-                         
-		
-		// Ignore all the other eventTypes, but you should consider the other ones.
-	}
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -88,7 +77,8 @@ public class Suivant extends javax.swing.JFrame {
         Valeur_recu = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        ValeurTable = new javax.swing.JTable();
 
         vale.setAlwaysOnTop(true);
         vale.setMinimumSize(new java.awt.Dimension(633, 230));
@@ -149,38 +139,68 @@ public class Suivant extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jButton1.setText("Suivant");
+        jButton1.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        jButton1.setText("Essai suivant");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/imogy.png"))); // NOI18N
+        ValeurTable.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        ValeurTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "N° de l'essai", "Orientation init. de la Baguette (deg)", "Orientation finale de la baguette (deg)", "Temps d'ajustement (ms) ", "Invalidation de l'essai"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(ValeurTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(188, 188, 188)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addGap(69, 69, 69)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(964, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(72, 72, 72)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE)
+                    .addGap(72, 72, 72)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(102, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(52, 52, 52)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(499, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(185, 185, 185)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(185, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,8 +220,7 @@ public class Suivant extends javax.swing.JFrame {
     public void val(){
        
          
-         System.out.println(D);
-        
+         System.out.println(D);        
              for(int m =0;m<B.length;m++){
                  V.addElement(C+":"+B[m]);     
              }
@@ -210,27 +229,44 @@ public class Suivant extends javax.swing.JFrame {
           System.out.println("valeur"+V.size());
         
      }
-
+public void table(){
+         ((DefaultTableModel) ValeurTable.getModel()).setRowCount(V.size());
+         for(int i=0; i<V.size();i++){
+             ValeurTable.setValueAt(i+1,i, 0);
+             ValeurTable.setValueAt(V.get(i).split(":")[1], i, 1); 
+            
+         }
+     }
     /**
      *
      */
+     public void centerTable() {
+            DefaultTableCellRenderer custom = new DefaultTableCellRenderer(); 
+            custom.setHorizontalAlignment(JLabel.CENTER); // centre les données de ton tableau
+             for (int i=0 ; i < ValeurTable.getColumnCount() ; i++){ // centre chaque cellule de ton tableau
+                ValeurTable.getColumnModel().getColumn(i).setCellRenderer(custom); 
+            }
+            
+        }
     public   void get(){
-       if (vale.isVisible()){
+      
             ardu.openConnection();
             
             
             a =ardu.serialRead();
             Valeur_recu.setText(a);
+            ValeurTable.setValueAt(a, i-1, 2);
             System.out.println(a);
             
-       }else{
-           System.out.println("fermé");
-       }
+       
        
     }
     Timer timer = new Timer(200, new ActionListener() {
    public void actionPerformed(ActionEvent ae) {
    get();
+    if(ValeurTable.getValueAt(i-1, 1).equals(ValeurTable.getValueAt(i-1, 3))){
+      ValeurTable.setValueAt("OK", i-1, 4);
+        } 
    }
  });
  
@@ -244,13 +280,20 @@ public class Suivant extends javax.swing.JFrame {
             Thread.sleep(1000);
             
              if ( i <D){
+                 
+                 
                        ardu.serialWrite("Init:"+params.getReference());
                         System.out.println("Val: "+V.get(i));    
                      Thread.sleep(500);
                        ardu.serialWrite(V.get(i));
                         i++;
-                        
-            }else{
+                        if (i==D){
+                   jButton1.setText("Terminer");
+               } 
+                    
+            }else {
+                           
+                 
                     final JFrame fenetre = new JFrame();
                     fenetre.setSize(200,200);
                     fenetre.setLocationRelativeTo(null);
@@ -260,35 +303,43 @@ public class Suivant extends javax.swing.JFrame {
                     int val_retour = fc.showSaveDialog(fc);
                     
                       File fichier1 = fc.getSelectedFile();
-                File fi = new File(fichier1.getAbsolutePath());
+                File fi = new File(fichier1.getAbsolutePath()+".txt");
                 fi.createNewFile();
-            PrintWriter fichier = new PrintWriter(fichier1.getAbsolutePath());
-            fichier.println("Nature: " +C );
-            fichier.println("Vitesse: " + params.getVitesse());
+            PrintWriter fichier = new PrintWriter(fichier1.getAbsolutePath()+".txt");
+            fichier.println("Test: " +C );
+            fichier.println("Vitesse d'ajustement: " + params.getVitesse());
             fichier.println("-----------------------------------");
-            fichier.println("Orientations Initiales Baguette :"+Arrays.toString(B));
+            fichier.println("Bag. Orientation init.:"+Arrays.toString(B));
            
             
-            fichier.println("Aléatoire Baguette: "+params.isAleatoireTige());
-            fichier.println("Nombres de Répétition baguette: "+params.getNombredEssaiTige());
+            fichier.println("Bag. Aléatoire: "+params.isAleatoireTige());
+            fichier.println("Bag. Nombre de répétition: "+params.getNombredEssaiTige());
             fichier.println("-----------------------------------");
-            fichier.println("Orientations Initiales Cadre: "+Arrays.toString(params.getValeursCadre()));
+            fichier.println("Cadre Orientation init. : "+Arrays.toString(params.getValeursCadre()));
             
-            fichier.println("Aléatoire Cadre: "+Parametre.isAleatoireCadre());
-            fichier.println("Nombres de Répétition Cadre: "+params.getNombredEssaiCadre());
+            fichier.println("Cadre Aléatoire: "+Parametre.isAleatoireCadre());
+            fichier.println("Cadre Nombre de répétition: "+params.getNombredEssaiCadre());
             fichier.println("--------------------------------------");
-            fichier.println("Nombres d'éssais: "+D);
+            fichier.println("Nombre d'essai: "+D);
             fichier.println("Zéro:"+params.getReference());
             fichier.println("--------------------------------------");
             fichier.println("Résultats: {");
-            for (int v=0;v<D;v++){
-                fichier.println(V.get(v)+"--->"+R.get(v));
-            }
+           for (int v=0;v<D;v++){
+                fichier.println("--------------------------------------");
+                //fichier.print(ValeurTable.getValueAt(v, 0));
+                fichier.print(ValeurTable.getValueAt(v, 1));
+                fichier.print("-->");
+                fichier.print(ValeurTable.getValueAt(v, 2));
+                fichier.print("-->");
+                fichier.println(ValeurTable.getValueAt(v, 3));
+                
+              }
                 fichier.println("}");
 
             fichier.close();
             System.exit(0);
              }
+             
              
          //ardu.closeConnection();
           // Thread.sleep(1000);
@@ -301,7 +352,7 @@ public class Suivant extends javax.swing.JFrame {
        
        
       
-       vale.setVisible(true);
+      
        timer.setRepeats(true);
        timer.start();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -309,7 +360,7 @@ public class Suivant extends javax.swing.JFrame {
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         R.add(Valeur_recu.getText());
-        vale.dispose();
+        
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -359,13 +410,14 @@ public class Suivant extends javax.swing.JFrame {
    
 int i;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable ValeurTable;
     public static javax.swing.JLabel Valeur_recu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JDialog vale;
     // End of variables declaration//GEN-END:variables
 }
