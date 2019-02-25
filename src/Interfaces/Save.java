@@ -157,12 +157,13 @@ public class Save extends javax.swing.JFrame {
            Vector<Integer> C = new Vector<Integer>();
            
             int AngleCA []= new int[0];
-            int AngleCadres[]=new int[k]; 
+             
             int AngleTige []= new int[EssaisTige.getRowCount()];
             int AngleTA []= new int [0];
             int AngleTiges[]= new int [j];
       if(RFTCheck.isSelected()){     
              int k=EssaisCadre.getRowCount()*Integer.parseInt(NombreEssaiCadre.getText());
+             int AngleCadres[]=new int[k];
              int AngleCadre []= new int[EssaisCadre.getRowCount()];
             for(int i=0 ;i<EssaisCadre.getRowCount();i++){
                 AngleCadre[i] =Integer.parseInt((String) EssaisCadre.getModel().getValueAt(i, 0));

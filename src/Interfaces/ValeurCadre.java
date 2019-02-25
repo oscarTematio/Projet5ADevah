@@ -73,6 +73,7 @@ public class ValeurCadre extends javax.swing.JFrame {
         Next = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ValeurTable = new javax.swing.JTable();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         vale.setAlwaysOnTop(true);
         vale.setMinimumSize(new java.awt.Dimension(633, 230));
@@ -171,27 +172,41 @@ public class ValeurCadre extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(ValeurTable);
 
+        jToggleButton1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jToggleButton1.setText("Invalider l'essai");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1115, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(115, Short.MAX_VALUE)
+                .addContainerGap(79, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(103, 103, 103)
-                .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
+                .addGap(18, 18, 18)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(Next, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -251,16 +266,18 @@ public class ValeurCadre extends javax.swing.JFrame {
             a =ardu.serialRead();
              ValeurTable.setValueAt(a, i-1, 3);
             System.out.println(a);
+            ValeurTable.setValueAt(2*t, i-1, 4);
+            t=t+200;
               
         }
     Timer timer = new Timer(200, new ActionListener() {
    public void actionPerformed(ActionEvent ae) {
    get();
-    if(ValeurTable.getValueAt(i-1, 1).equals(ValeurTable.getValueAt(i-1, 3))){
-      ValeurTable.setValueAt("OK", i-1, 5);
-        } 
+    
    }
  });
+  
+   
     
     private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
         
@@ -270,7 +287,8 @@ public class ValeurCadre extends javax.swing.JFrame {
             ardu.openConnection();
             Thread.sleep(1000);
            
-             if ( i <D){
+             if ( i <ValeurTable.getRowCount()){
+                  t=0;
                  ardu.serialWrite("Init:"+params.getReference());
                         System.out.println("Val: "+V.get(i));    
                         Thread.sleep(500);
@@ -342,6 +360,7 @@ public class ValeurCadre extends javax.swing.JFrame {
       
        timer.setRepeats(true);
        timer.start();
+      
     
     }//GEN-LAST:event_NextActionPerformed
 
@@ -350,6 +369,23 @@ public class ValeurCadre extends javax.swing.JFrame {
         vale.dispose();
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+        int j = ValeurTable.getRowCount();
+        j=j+1;
+        ((DefaultTableModel) ValeurTable.getModel()).setRowCount(j);
+        if (i!=0){
+            ValeurTable.setValueAt("invalidé", i-1, 4);
+            ValeurTable.setValueAt(j, j-1, 0);
+            ValeurTable.setValueAt(String.valueOf(ValeurTable.getValueAt(i-1, 1)), j-1, 1);
+        }else {
+            ValeurTable.setValueAt("invalidé", i, 5);
+            ValeurTable.setValueAt(j, j-1, 0);
+            ValeurTable.setValueAt(String.valueOf(ValeurTable.getValueAt(i, 1)), j-1, 1);
+        }
+
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -396,6 +432,8 @@ public class ValeurCadre extends javax.swing.JFrame {
     }
     int i = 0;
     int j = 0;
+    int t;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Next;
     private javax.swing.JTable ValeurTable;
@@ -405,6 +443,7 @@ public class ValeurCadre extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButton1;
     private static javax.swing.JDialog vale;
     // End of variables declaration//GEN-END:variables
 
