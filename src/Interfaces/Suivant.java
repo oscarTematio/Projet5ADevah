@@ -346,9 +346,9 @@ public void table(){
                 fichier.println("--------------------------------------");
                 //fichier.print(ValeurTable.getValueAt(v, 0));
                 fichier.print(ValeurTable.getValueAt(v, 1));
-                fichier.print("-->");
+                fichier.print("        ");
                 fichier.print(ValeurTable.getValueAt(v, 2));
-                fichier.print("-->");
+                fichier.print("         ");
                 fichier.println(ValeurTable.getValueAt(v, 3));
                 
               }

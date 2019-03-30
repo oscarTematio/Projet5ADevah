@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Collections.list;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -277,7 +279,9 @@ public class ValeurCadre extends javax.swing.JFrame {
    }
  });
   
-   
+  static void printStringArray(String[] array) {
+        
+    } 
     
     private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
         
@@ -293,7 +297,7 @@ public class ValeurCadre extends javax.swing.JFrame {
                         System.out.println("Val: "+V.get(i));    
                         Thread.sleep(500);
                        
-                        ValeurTable.setValueAt(4, i,4);
+                        
                        
                        
                         //System.out.println(i+" "+D);    
@@ -313,6 +317,28 @@ public class ValeurCadre extends javax.swing.JFrame {
                 File fi = new File(fichier1.getAbsolutePath()+".txt");
                 fi.createNewFile();
             PrintWriter fichier = new PrintWriter(fichier1.getAbsolutePath()+".txt");
+            fichier.println("Résultats: {");
+            String A[] = new String[6];
+            
+            for(int i=0;i<ValeurTable.getRowCount();i++){
+               for (int l =0; l<6;l++){
+                    
+                  A[1]=String.valueOf(ValeurTable.getValueAt(i, l));
+              } 
+              fichier.println(Arrays.toString(A));
+               
+            }
+            
+            
+            
+           /* while (v<ValeurTable.getRowCount()){
+               
+                fichier.println("--------------------------------------");
+                //fichier.print(ValeurTable.getValueAt(v, 0));
+                fichier.println(Arrays.toString(A));
+                 v++;
+            }*/
+                fichier.println("}");
             fichier.println("Test: " +C );
             fichier.println("Vitesse d'ajustement: " + params.getVitesse());
             fichier.println("-----------------------------------");
@@ -330,21 +356,7 @@ public class ValeurCadre extends javax.swing.JFrame {
             fichier.println("Nombre d'essai: "+D);
             fichier.println("Zéro:"+params.getReference());
             fichier.println("--------------------------------------");
-            fichier.println("Résultats: {");
-            for (int v=0;v<D;v++){
-                fichier.println("--------------------------------------");
-                //fichier.print(ValeurTable.getValueAt(v, 0));
-                fichier.print(ValeurTable.getValueAt(v, 1));
-                fichier.print("-->");
-                fichier.print(ValeurTable.getValueAt(v, 2));
-                fichier.print("-->");
-                fichier.print(ValeurTable.getValueAt(v, 3));
-                fichier.print("-->");
-                fichier.print(ValeurTable.getValueAt(v, 4));
-                fichier.print("-->");
-                fichier.println(ValeurTable.getValueAt(v, 5));
-            }
-                fichier.println("}");
+            
 
             fichier.close();
             System.exit(0);
@@ -376,9 +388,10 @@ public class ValeurCadre extends javax.swing.JFrame {
         j=j+1;
         ((DefaultTableModel) ValeurTable.getModel()).setRowCount(j);
         if (i!=0){
-            ValeurTable.setValueAt("invalidé", i-1, 4);
+            ValeurTable.setValueAt("invalidé", i-1, 5);
             ValeurTable.setValueAt(j, j-1, 0);
             ValeurTable.setValueAt(String.valueOf(ValeurTable.getValueAt(i-1, 1)), j-1, 1);
+            ValeurTable.setValueAt(String.valueOf(ValeurTable.getValueAt(i-1, 1)), j-1, 2);
         }else {
             ValeurTable.setValueAt("invalidé", i, 5);
             ValeurTable.setValueAt(j, j-1, 0);
@@ -433,6 +446,7 @@ public class ValeurCadre extends javax.swing.JFrame {
     int i = 0;
     int j = 0;
     int t;
+    int v=0;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Next;
