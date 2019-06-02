@@ -53,6 +53,7 @@ public class Suivant extends javax.swing.JFrame {
          B= params.getValeursTige();
          C=params.getNature();
          D=params.getNombresTotal();
+         E= params.getVitesse();
           val();
         table();
         centerTable();
@@ -235,10 +236,16 @@ public class Suivant extends javax.swing.JFrame {
 
     public void val(){
        
-         
+         //debug 
          System.out.println(D);        
              for(int m =0;m<B.length;m++){
-                 V.addElement(C+":"+B[m]);     
+                 V.addElement(C+":"+E+":"+B[m]);     
+                 //nature:vitesse:angle
+                 //RFT:50:60
+                 /*code for arduino 
+                   String Speed = getValue(Serial_read,':',1);
+                   int Speed = Speed.toInt();  //Converts string to integer
+                 */
              }
              
          
